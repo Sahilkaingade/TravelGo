@@ -23,12 +23,14 @@ const cartRoutes = require("./routes/cart");
 const feedbackRoutes = require("./routes/feedback");
 const helpRoutes = require("./routes/help");
 const downloadRoutes = require("./routes/downloads");
+const contactRoutes = require("./routes/contact");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/feedback", feedbackRoutes);
 app.use("/api/help", helpRoutes);
 app.use("/api/downloads", downloadRoutes);
+app.use("/api/contact", contactRoutes);
 
 // Root test route
 app.get("/", (req, res) => {
