@@ -40,7 +40,7 @@ export default function Footer() {
         {/* About Gotur */}
         <div>
           <h3 className="text-xl font-bold text-white mb-4">About Gotur</h3>
-          <p>Available, But The Majority Have Suffered Alteration In Some Form By Injected Humour, Or</p>
+          <p>The Website is Used to Plan Your Travel Efficiently and Effectively.The Website focuses on the User Experience and Provides the Best Travel Options Available.</p>
           <div className="flex gap-4 mt-4">
             <FaFacebookF />
             <FaTwitter />
@@ -53,11 +53,10 @@ export default function Footer() {
         <div>
           <h3 className="text-xl font-bold text-white mb-4">Destinations</h3>
           <ul className="space-y-2">
-            <li>South America</li>
-            <li>Middle East</li>
-            <li>San Franc Rica</li>
-            <li>New York</li>
-            <li>Tokyo</li>
+            <li>Maharashtra</li>
+            <li>Goa</li>
+            <li>Kashmir</li>
+            <li>Kerala</li>
           </ul>
         </div>
 
@@ -68,7 +67,7 @@ export default function Footer() {
             <li>About Us</li>
             <li>Destination</li>
             <li>News & blog</li>
-            <li>Meet the Guide</li>
+            <li>Planning</li>
             <li>Contacts</li>
           </ul>
         </div>
