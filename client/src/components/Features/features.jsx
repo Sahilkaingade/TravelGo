@@ -2,12 +2,15 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { IoLocationOutline } from 'react-icons/io5';
 import { LuCalendarDays } from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
 
+// ✅ Import images
 import Fp1 from '/Travel-Planner/client/src/assets/ganpati.png';
 import Fp2 from '/Travel-Planner/client/src/assets/navratri2.png';
 import Fp3 from '/Travel-Planner/client/src/assets/holi.png';
 import Fp4 from '/Travel-Planner/client/src/assets/diwali.png';
 
+// ✅ Tour Data
 const tours = [
   {
     id: 1,
@@ -20,6 +23,7 @@ const tours = [
     discount: "40% Off",
     rating: 4,
     reviews: 10,
+    path: "/ganesh-chaturthi",
   },
   {
     id: 2,
@@ -32,6 +36,7 @@ const tours = [
     discount: "40% Off",
     rating: 5,
     reviews: 8,
+    path: "/durga-puja",
   },
   {
     id: 3,
@@ -44,11 +49,12 @@ const tours = [
     discount: "40% Off",
     rating: 4,
     reviews: 12,
+    path: "/holi-festival",
   },
   {
     id: 4,
     title: "Diwali Celebration",
-    location: "Uttarpradesh",
+    location: "Uttar Pradesh",
     days: "7 Days, 8 Night",
     price: "Rs. 19,500",
     image: Fp4,
@@ -56,10 +62,11 @@ const tours = [
     discount: "40% Off",
     rating: 5,
     reviews: 15,
+    path: "/diwali-celebration",
   },
 ];
 
-// Animation variant
+// ✅ Animation Variants
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: (i) => ({
@@ -68,15 +75,17 @@ const fadeUp = {
     transition: {
       delay: i * 0.2,
       duration: 0.6,
-      ease: 'easeOut'
-    }
+      ease: 'easeOut',
+    },
   }),
 };
 
 export default function Features() {
+  const navigate = useNavigate();
+
   return (
     <div className="px-4 md:px-16 py-16 bg-white">
-      {/* Header */}
+      {/* Header Section */}
       <div className="mb-12 text-center">
         <p className="inline-block bg-[#ffe8cc] text-[#f58220] px-3 py-1 rounded-md text-sm font-semibold mb-3">
           Popular Tours
@@ -91,14 +100,15 @@ export default function Features() {
         {tours.map((tour, i) => (
           <motion.div
             key={tour.id}
-            className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden min-h-[520px] flex flex-col"
+            className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden min-h-[520px] flex flex-col cursor-pointer"
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             custom={i}
             viewport={{ once: true, amount: 0.2 }}
+            onClick={() => navigate(tour.path)} // ✅ Only one navigation event
           >
-            {/* Image */}
+            {/* Image Section */}
             <div className="relative">
               <img
                 src={tour.image}
@@ -117,29 +127,30 @@ export default function Features() {
               )}
             </div>
 
-            {/* Content */}
+            {/* Content Section */}
             <div className="p-6 flex-grow flex flex-col justify-between">
               <div>
+                {/* Reviews */}
                 <div className="text-sm text-gray-500 mb-2 flex items-center gap-1">
                   ({tour.reviews} Review)
                   {Array(5)
                     .fill()
-                    .map((_, i) => (
+                    .map((_, idx) => (
                       <span
-                        key={i}
-                        className={`text-sm ${
-                          i < tour.rating ? "text-yellow-400" : "text-gray-300"
-                        }`}
+                        key={idx}
+                        className={`text-sm ${idx < tour.rating ? 'text-yellow-400' : 'text-gray-300'}`}
                       >
                         ★
                       </span>
                     ))}
                 </div>
 
+                {/* Title */}
                 <h3 className="text-lg font-semibold text-gray-800 mb-3 leading-snug">
                   {tour.title}
                 </h3>
 
+                {/* Location + Days */}
                 <div className="flex items-center text-sm text-gray-600 mb-4 gap-4">
                   <div className="flex items-center gap-1">
                     <IoLocationOutline />
@@ -152,11 +163,13 @@ export default function Features() {
                 </div>
               </div>
 
+              {/* Price + Button */}
               <div className="flex justify-between items-center mt-4">
-                <span className="text-orange-500 font-bold text-xl">
-                  {tour.price}
-                </span>
-                <button className="bg-white border-2 border-green-600 text-green-600 px-5 py-2 rounded-full hover:bg-green-600 hover:text-white transition-all text-sm font-semibold">
+                <span className="text-orange-500 font-bold text-xl">{tour.price}</span>
+
+                <button
+                  className="bg-white border-2 border-green-600 text-green-600 px-5 py-2 rounded-full hover:bg-green-600 hover:text-white transition-all text-sm font-semibold"
+                >
                   Learn More
                 </button>
               </div>

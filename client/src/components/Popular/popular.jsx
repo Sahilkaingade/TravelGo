@@ -50,9 +50,9 @@ export default function Popular() {
       </motion.h1>
 
       <p className="text-gray-600 mt-4 max-w-3xl mx-auto">
-        The Island Of Crete Offers A Rare Mix Of Splendid Beaches, Amazing
-        Mountain Landscapes, Vibrant Towns And Cosy Villages Inhabited By
-        Warm-Hearted Locals.
+        Explore some of the most popular travel destinations in India. From the
+        serene backwaters of Kerala to the majestic peaks of Kashmir, find your
+        next adventure here.
       </p>
 
       {/* Tags */}

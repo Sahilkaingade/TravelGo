@@ -51,7 +51,7 @@ export default function About() {
             <FaMapMarkerAlt className="text-green-600 text-3xl" /><br />
             <div>
               <h3 className="text-lg font-bold text-gray-900">Trusted Travel Guide</h3>
-              <p className="text-gray-500">Pellentesque ut vehicula sapien dictumst. Maecenas ante.</p>
+              <p className="text-gray-500">We will try to provide the best Tour Guide for you.</p>
             </div>
           </div>
 
@@ -60,7 +60,7 @@ export default function About() {
             <FaCalendarCheck className="text-green-600 text-3xl" /><br />
             <div>
               <h3 className="text-lg font-bold text-gray-900">Instant Booking</h3>
-              <p className="text-gray-500">Pellentesque ut vehicula sapien dictumst. Maecenas ante.</p>
+              <p className="text-gray-500">The booking is currently unavailable on the website as it's just a Travel Planner Website</p>
             </div>
           </div>
         </div>
