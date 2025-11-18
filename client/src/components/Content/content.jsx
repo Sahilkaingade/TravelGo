@@ -4,25 +4,72 @@ import Planebg from '/Travel-Planner/client/src/assets/hero-shapr-1-2.png';
 import Bag from '/Travel-Planner/client/src/assets/hero-1.png';
 
 export default function Content() {
-  const navigate = useNavigate(); // ✅ Hook for navigation
+  const navigate = useNavigate();
 
   return (
-    <div className="absolute bg-[#f3e9dc]/80 backdrop-blur-md p-8 rounded-3xl shadow-lg top-24 h-[85vh] w-[62%]">
-      <img src={Planebg} alt="plane" className="absolute" />
-      <h1 className="text-3xl font-bold text-[#F7921E] mt-24">Explore Worlds</h1>
-      <p className="mt-4 text-7xl font-bold text-left text-gray-900">
+    <div
+ className="
+    lg:absolute 
+    lg:top-24 
+    lg:h-[85vh]
+    bg-[#f3e9dc]/80 backdrop-blur-md
+    p-6 sm:p-8 lg:p-8
+    rounded-3xl shadow-lg
+    overflow-hidden        /* ⭐ FIX BLUR OVERFLOW */
+    w-[100%] sm:w-[80%] lg:w-[62%]
+  "
+>
+      
+      {/* Plane image (no desktop change) */}
+      <img 
+        src={Planebg} 
+        alt="plane" 
+        className="absolute w-28 sm:w-40 lg:w-auto" 
+      />
+
+      {/* Title */}
+      <h1 className="text-2xl sm:text-3xl lg:text-3xl font-bold text-[#F7921E] mt-20 lg:mt-24">
+        Explore Worlds
+      </h1>
+
+      {/* Heading */}
+      <p className="
+        mt-3 
+        text-4xl sm:text-5xl md:text-6xl 
+        lg:text-7xl lg:leading-[80px] 
+        font-bold text-left text-gray-900
+      ">
         Exploring Beautiful <br /> Destinations
       </p>
-      <p className="mt-4 text-xl text-gray-700">
+
+      {/* Description */}
+      <p className="mt-4 text-base sm:text-lg md:text-xl text-gray-700 lg:max-w-[70%]">
         Planning your next adventure with us with the valuable discounts and be
         the one to explore the world!
       </p>
-      <img src={Bag} alt="bag" className="absolute left-4 w-40 bottom-0.5" />
 
-      {/* 🟢 Button redirects to /destination */}
+      {/* Bag image → HIDE on mobile */}
+      <img 
+        src={Bag} 
+        alt="bag" 
+        className="
+          hidden sm:block
+          absolute left-4 bottom-0.5 
+          w-24 sm:w-32 md:w-36 lg:w-40
+        " 
+      />
+
+      {/* Button (position same on desktop) */}
       <button
         onClick={() => navigate('/destination')}
-        className="mt-4 bg-[#F7921E] text-white py-2 px-6 rounded-full absolute ml-36 hover:bg-[#e87f15] transition-all"
+        className="
+          mt-6 lg:mt-4 
+          bg-[#F7921E] text-white 
+          py-2 px-6 
+          rounded-full 
+          lg:absolute lg:ml-36 
+          hover:bg-[#e87f15] transition-all
+        "
       >
         Get Started
       </button>

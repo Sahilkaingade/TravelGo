@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Link, useLocation } from "react-router-dom"; // ✅ Import useLocation for active tag
+import { Link, useLocation } from "react-router-dom";
 
 import destination1 from "/Travel-Planner/client/src/assets/maharashtra.jpg";
 import destination2 from "/Travel-Planner/client/src/assets/kerala.jpg";
@@ -17,7 +17,7 @@ const imageVariants = {
 };
 
 export default function Popular() {
-  const location = useLocation(); // ✅ get current route
+  const location = useLocation();
 
   const destinations = [
     { src: destination1, label: "Maharashtra", path: "/maharashtra" },
@@ -62,14 +62,18 @@ export default function Popular() {
             (dest) => dest.label.toLowerCase() === tag.toLowerCase()
           );
 
-          const isActive = location.pathname === destination?.path; // ✅ check if active
+          const isActive = location.pathname === destination?.path;
 
           return (
             <Link
               key={index}
               to={destination?.path || "/"}
               className={`px-4 py-1 rounded-full font-semibold text-sm transition 
-                ${isActive ? "bg-orange-500 text-white" : "bg-black text-white hover:bg-orange-500 hover:text-white"}`}
+                ${
+                  isActive
+                    ? "bg-orange-500 text-white"
+                    : "bg-black text-white hover:bg-orange-500 hover:text-white"
+                }`}
             >
               {tag}
             </Link>
@@ -77,8 +81,15 @@ export default function Popular() {
         })}
       </div>
 
-      {/* Destinations */}
-      <div className="flex justify-center items-start flex-wrap gap-12 mt-12">
+      {/* Destination Cards */}
+      <div
+        className="
+          flex gap-20 md:gap-0 mt-12 px-4 pb-12
+          pl-20 lg:pl-0  overflow-x-auto scrollbar-hide
+          snap-x snap-mandatory
+          md:justify-center md:flex-wrap md:overflow-visible md:snap-none
+        "
+      >
         {destinations.map((item, index) => (
           <motion.div
             key={index}
@@ -86,15 +97,22 @@ export default function Popular() {
             animate="visible"
             variants={imageVariants}
             transition={{ delay: index * 0.2, duration: 0.6 }}
-            className="relative group"
+            className="
+              relative group flex-shrink-0 mx-auto 
+              w-[280px] snap-center 
+              md:w-auto md:snap-none
+            "
           >
-            {/* ✅ Wrap with Link */}
             <Link to={item.path}>
               <img
                 src={item.src}
                 alt={item.label}
-                className="w-[250px] h-[340px] object-cover rounded-t-full rounded-b-full border-4 border-transparent group-hover:border-orange-400 transition-all duration-300 shadow-md cursor-pointer"
+                className="w-[250px] h-[340px] object-cover rounded-t-full rounded-b-full 
+                border-4 border-transparent group-hover:border-orange-400 
+                transition-all duration-300 shadow-md cursor-pointer"
               />
+
+              {/* Title */}
               <div className="absolute bottom-[-20px] left-1/2 transform -translate-x-1/2 bg-white px-4 py-1 rounded-full shadow-md">
                 <h3 className="text-orange-500 text-lg font-bold italic font-[cursive]">
                   {item.label}

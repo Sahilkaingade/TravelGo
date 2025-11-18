@@ -4,13 +4,13 @@ import { IoLocationOutline } from 'react-icons/io5';
 import { LuCalendarDays } from 'react-icons/lu';
 import { useNavigate } from 'react-router-dom';
 
-// ✅ Import images
+// Images
 import Fp1 from '/Travel-Planner/client/src/assets/ganpati.png';
 import Fp2 from '/Travel-Planner/client/src/assets/navratri2.png';
 import Fp3 from '/Travel-Planner/client/src/assets/holi.png';
 import Fp4 from '/Travel-Planner/client/src/assets/diwali.png';
 
-// ✅ Tour Data
+// Tours Data
 const tours = [
   {
     id: 1,
@@ -66,7 +66,6 @@ const tours = [
   },
 ];
 
-// ✅ Animation Variants
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: (i) => ({
@@ -85,7 +84,7 @@ export default function Features() {
 
   return (
     <div className="px-4 md:px-16 py-16 bg-white">
-      {/* Header Section */}
+      {/* Header */}
       <div className="mb-12 text-center">
         <p className="inline-block bg-[#ffe8cc] text-[#f58220] px-3 py-1 rounded-md text-sm font-semibold mb-3">
           Popular Tours
@@ -95,18 +94,27 @@ export default function Features() {
         </h1>
       </div>
 
-      {/* Tour Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {/* Cards Wrapper */}
+      <div
+        className="
+          flex gap-12 md:gap-6 pl-10 overflow-x-auto pb-4 px-2 snap-x snap-mandatory
+          sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-8 sm:overflow-visible
+        "
+      >
         {tours.map((tour, i) => (
           <motion.div
             key={tour.id}
-            className="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-shadow duration-300 overflow-hidden min-h-[520px] flex flex-col cursor-pointer"
+            className="
+              bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-shadow
+              duration-300 overflow-hidden min-h-[520px] flex-shrink-0 flex flex-col
+              cursor-pointer w-[80%] xs:w-[70%] sm:w-auto snap-center
+            "
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             custom={i}
             viewport={{ once: true, amount: 0.2 }}
-            onClick={() => navigate(tour.path)} // ✅ Only one navigation event
+            onClick={() => navigate(tour.path)}
           >
             {/* Image Section */}
             <div className="relative">
@@ -127,10 +135,9 @@ export default function Features() {
               )}
             </div>
 
-            {/* Content Section */}
+            {/* Content */}
             <div className="p-6 flex-grow flex flex-col justify-between">
               <div>
-                {/* Reviews */}
                 <div className="text-sm text-gray-500 mb-2 flex items-center gap-1">
                   ({tour.reviews} Review)
                   {Array(5)
@@ -138,19 +145,19 @@ export default function Features() {
                     .map((_, idx) => (
                       <span
                         key={idx}
-                        className={`text-sm ${idx < tour.rating ? 'text-yellow-400' : 'text-gray-300'}`}
+                        className={`text-sm ${
+                          idx < tour.rating ? 'text-yellow-400' : 'text-gray-300'
+                        }`}
                       >
                         ★
                       </span>
                     ))}
                 </div>
 
-                {/* Title */}
                 <h3 className="text-lg font-semibold text-gray-800 mb-3 leading-snug">
                   {tour.title}
                 </h3>
 
-                {/* Location + Days */}
                 <div className="flex items-center text-sm text-gray-600 mb-4 gap-4">
                   <div className="flex items-center gap-1">
                     <IoLocationOutline />
@@ -167,9 +174,7 @@ export default function Features() {
               <div className="flex justify-between items-center mt-4">
                 <span className="text-orange-500 font-bold text-xl">{tour.price}</span>
 
-                <button
-                  className="bg-white border-2 border-green-600 text-green-600 px-5 py-2 rounded-full hover:bg-green-600 hover:text-white transition-all text-sm font-semibold"
-                >
+                <button className="bg-white border-2 border-green-600 text-green-600 px-5 py-2 rounded-full hover:bg-green-600 hover:text-white transition-all text-sm font-semibold">
                   Learn More
                 </button>
               </div>

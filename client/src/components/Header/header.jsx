@@ -18,14 +18,14 @@ export default function Header() {
 
   return (
     <>
-      {/* Fixed Header */}
+      {/* Header */}
       <div className="fixed top-0 left-0 w-full bg-white h-[80px] flex items-center justify-between px-8 shadow-md z-50">
         {/* Logo */}
         <div className="flex items-center gap-2">
           <img src={logo} alt="Logo" className="w-[180px]" />
         </div>
 
-        {/* Navigation Menu (Desktop) */}
+        {/* Desktop Nav */}
         <ul className="hidden lg:flex gap-8 text-gray-800 font-medium text-[16px]">
           <li><Link to="/" className="hover:text-green-600">Home</Link></li>
           <li><Link to="/about" className="hover:text-green-600">About Us</Link></li>
@@ -36,7 +36,7 @@ export default function Header() {
           <li><Link to="/contact" className="hover:text-green-600">Contact</Link></li>
         </ul>
 
-        {/* Right Icons and Hamburger */}
+        {/* Right Section */}
         <div className="flex items-center gap-5">
           {/* Cart Icon */}
           <FaShoppingCart
@@ -44,7 +44,7 @@ export default function Header() {
             onClick={() => navigate("/cart")}
           />
 
-          {/* Hamburger Icon */}
+          {/* Hamburger */}
           <div
             className="w-10 h-10 bg-green-100 flex items-center justify-center rounded-full cursor-pointer"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -52,7 +52,7 @@ export default function Header() {
             <HiOutlineMenuAlt3 className="text-green-600 text-xl" />
           </div>
 
-          {/* Get in Touch Button */}
+          {/* Contact Button */}
           <Link to="/contact">
             <button className="bg-orange-500 text-white font-semibold rounded-full px-6 py-2 flex items-center gap-2 hover:bg-orange-600 transition-all">
               Get In Touch <FaTelegram />
@@ -68,7 +68,7 @@ export default function Header() {
             className="fixed inset-0 bg-black bg-opacity-50 z-40"
             onClick={() => setIsMenuOpen(false)}
           />
-          <div className="fixed top-0 right-0 w-[300px] h-screen bg-white shadow-lg border-l z-50 p-6 mt-[81px]">
+          <div className="fixed top-0 right-0 w-[300px] h-screen bg-white shadow-lg border-l z-50 p-6 mt-[81px] overflow-y-auto">
             <div className="flex flex-col items-center text-center mt-6">
               <img src={logo} alt="Company Logo" className="w-20 mb-2" />
               <h2 className="text-xl font-semibold text-green-700">Gotur Pvt. Ltd.</h2>
@@ -108,6 +108,30 @@ export default function Header() {
                   </Link>
                 </>
               )}
+            </div>
+
+            {/* Extra items only for mobile */}
+            <div className="lg:hidden mt-8">
+              <ul className="flex flex-col gap-4 text-gray-800 font-medium text-[16px]">
+                <li><Link to="/" onClick={() => setIsMenuOpen(false)} className="hover:text-green-600">Home</Link></li>
+                <li><Link to="/about" onClick={() => setIsMenuOpen(false)} className="hover:text-green-600">About Us</Link></li>
+                <li><Link to="/destination" onClick={() => setIsMenuOpen(false)} className="hover:text-green-600">Destination</Link></li>
+                <li><Link to="/tours" onClick={() => setIsMenuOpen(false)} className="hover:text-green-600">Tours List</Link></li>
+                <li><Link to="/planning" onClick={() => setIsMenuOpen(false)} className="hover:text-green-600">Planning</Link></li>
+                <li><Link to="/news" onClick={() => setIsMenuOpen(false)} className="hover:text-green-600">News</Link></li>
+                <li><Link to="/contact" onClick={() => setIsMenuOpen(false)} className="hover:text-green-600">Contact</Link></li>
+              </ul>
+
+              {/* Cart button inside mobile drawer */}
+              <button
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  navigate("/cart");
+                }}
+                className="mt-6 bg-green-100 text-green-600 font-medium flex items-center justify-center gap-2 py-2 rounded hover:bg-green-200 transition-all"
+              >
+                <FaShoppingCart /> View Cart
+              </button>
             </div>
           </div>
         </>
