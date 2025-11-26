@@ -27,7 +27,7 @@ import Kashmir from "./pages/Subpages/Kashmir/kashmir.jsx";
 import Goa from "./pages/Subpages/Goa/goa.jsx";
 
 // Cultural Festival Pages
-import Thrissur from "./pages/Destinationpages/Thissur/thissur.jsx";
+import Thissur from "./pages/Destinationpages/Thissur/thissur.jsx";
 import Holi from "./pages/Destinationpages/Holi/holi.jsx";
 import Ganesh from "./pages/Destinationpages/Ganesh/ganesh.jsx";
 import Navratri from "./pages/Destinationpages/Navratri/navratri.jsx";
@@ -41,6 +41,7 @@ import Pushkar from "./pages/Destinationpages/Pushkar/pushkar.jsx";
 import Hornbill from "./pages/Destinationpages/Hornbill/hornbill.jsx";
 import Lohri from "./pages/Destinationpages/Lohri/lohri.jsx";
 
+
 function AppContent() {
   const location = useLocation();
 
@@ -53,7 +54,7 @@ function AppContent() {
     "/kerala",
     "/kashmir",
     "/goa",
-    "/thrissur",
+    "/thissur",
     "/holi-festival",
     "/ganesh-chaturthi",
     "/navratri-festival",
@@ -65,7 +66,7 @@ function AppContent() {
     "/pongal-festival",
     "/pushkar-fair",
     "/hornbill-festival",
-    "/lohri-festival",
+    "/lohri-festival"
   ].includes(location.pathname);
 
   const hideFooterOnly = location.pathname === "/tours";
@@ -92,7 +93,7 @@ function AppContent() {
         <Route path="/kerala" element={<Kerala />} />
         <Route path="/kashmir" element={<Kashmir />} />
         <Route path="/goa" element={<Goa />} />
-        <Route path="/thrissur" element={<Thrissur />} />
+
 
         {/* Cultural festival pages */}
         <Route path="/holi-festival" element={<Holi />} />
@@ -107,6 +108,7 @@ function AppContent() {
         <Route path="/pushkar-fair" element={<Pushkar />} />
         <Route path="/hornbill-festival" element={<Hornbill />} />
         <Route path="/lohri-festival" element={<Lohri />} />
+        <Route path="/thissur" element={<Thissur />} />
       </Routes>
 
       {!hideHeaderAndFooter && !hideFooterOnly && <Footer />}

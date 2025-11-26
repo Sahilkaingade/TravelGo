@@ -204,7 +204,7 @@ export default function Destination() {
       rating: "4.8",
       tags: ["Thrissur", "Kerala", "Temple Festival"],
       image: Thrissur,
-      link: "/thrissur-pooram",
+      link: "/thissur",
     },
   ];
 

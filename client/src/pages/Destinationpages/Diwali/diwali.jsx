@@ -1,309 +1,286 @@
 import React, { useRef, useState } from "react";
-import {
-  CalendarDays,
-  MapPin,
-  Star,
-  ArrowLeft,
-  Pencil,
-  Save,
-  CheckCircle,
-  XCircle,
-} from "lucide-react";
+import { CalendarDays, MapPin, Star, ArrowLeft, Pencil, Save, CheckCircle, XCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-import Diwalis from "/Travel-Planner/client/src/assets/diwali.png";
-import Diwali1 from "/Travel-Planner/client/src/assets/diwali1.jpg";
-import Diwali2 from "/Travel-Planner/client/src/assets/diwali2.jpg";
+import Diwali1 from "/Travel-Planner/client/src/assets/diwali.png";
+import Diwali2 from "/Travel-Planner/client/src/assets/diwali1.jpg";
+import Diwali3 from "/Travel-Planner/client/src/assets/diwali2.jpg";
 
 export default function Diwali() {
   const contentRef = useRef();
+
+  // --- States ---
   const [hotelType, setHotelType] = useState("3-star");
   const [isEditing, setIsEditing] = useState(false);
-  const [groupSize, setGroupSize] = useState("15–25 people");
+  const [groupSize, setGroupSize] = useState("15–20");
 
+  const basePrices = { "3-star": 35000, "4-star": 47000, "5-star": 62000 };
+  const [baseBudget, setBaseBudget] = useState(basePrices[hotelType]);
 
-  // Per-day cost mapping (used for day-by-day estimate as requested)
-  const costPerDay = {
-    "3-star": 12000,
-    "4-star": 15000,
-    "5-star": 19000,
+  const hotelNames = {
+    "3-star": "Hotel Radiance Residency, South Mumbai",
+    "4-star": "The Resort Mumbai, Malad",
+    "5-star": "Trident Hotel, Nariman Point",
   };
 
-  // Itinerary state (made editable). Each item has day and points array.
+  // 🔥 Updated for DIWALI FESTIVAL
   const [itinerary, setItinerary] = useState([
     {
-      day: "Day 1 - November 1 (Dhanteras)",
+      day: "Day 1–3",
+      cost: 12000,
       points: [
-        "Arrival in Varanasi and check-in at heritage hotel",
-        "Visit to Vishwanath Temple for Dhanteras prayers",
-        "Evening Ganga Aarti at Dashashwamedh Ghat",
-        "Traditional Diwali sweet tasting tour",
-        "Welcome dinner with local family",
+        "Arrival & welcome aarti ceremony.",
+        "Visit Diwali markets like Crawford Market & Zaveri Bazaar.",
+        "Experience lantern making workshops.",
       ],
     },
     {
-      day: "Day 2 - November 2 (Naraka Chaturdashi)",
+      day: "Day 4–7",
+      cost: 16000,
       points: [
-        "Early morning boat ride on the Ganges",
-        "Visit ancient temples and witness special pujas",
-        "Traditional oil lamp making workshop",
-        "Evening exploration of Ram Janmabhoomi",
-        "Spectacular fireworks display and diyas lighting",
+        "Attend cultural programs & Diwali folk dance nights.",
+        "Explore South Mumbai Diwali lighting & Marine Drive decoration.",
+        "Diwali sweets tasting session (Ladoo, Barfi, Kaju Katli).",
       ],
     },
     {
-      day: "Day 3 - November 3 (Diwali Main Day)",
+      day: "Day 8–10",
+      cost: 15000,
       points: [
-        "Morning darshan at Ram Janmabhoomi Temple",
-        "Participate in Lakshmi Puja ceremony",
-        "Traditional Diwali feast with local community",
-        "Night celebration with cultural programs",
-      ],
-    },
-    {
-      day: "Day 4 - November 4 (Govardhan Puja)",
-      points: [
-        "Return journey to Varanasi",
-        "Visit to temples for Govardhan Puja",
-        "Rangoli making workshop",
-        "Evening boat ride with floating diyas",
-        "Special Diwali dinner cruise on the Ganges",
-      ],
-    },
-    {
-      day: "Day 5 - November 5 (Bhai Dooj)",
-      points: [
-        "Morning Bhai Dooj ceremony participation",
-        "Visit to Sarnath Buddhist temples",
-        "Final Ganga Aarti experience",
-        "Farewell dinner with cultural performances",
+        "Lakshmi Pooja & Diwali night celebration.",
+        "Fireworks show and sky lantern release.",
+        "Farewell dinner & departure.",
       ],
     },
   ]);
 
-  // hotel names for display
-  const hotelNames = {
-    "3-star": "Hotel Temple View, Varanasi",
-    "4-star": "Hotel Ganges Grand, Varanasi",
-    "5-star": "Taj Ganges, Varanasi",
+  const highlights = [
+    "Witness Mumbai’s grand Diwali lighting & decoration",
+    "Participate in lantern making & rangoli workshops",
+    "Traditional sweets tasting (Ladoo, Barfi, Modak)",
+    "Attend cultural nights, fireworks & Lakshmi Pooja",
+  ];
+
+  const included = [
+    "Accommodation in selected hotel",
+    "Daily breakfast & dinner",
+    "Entry to Diwali cultural events",
+    "Airport pickup & drop",
+    "City tour in private AC vehicle",
+  ];
+
+  const notIncluded = [
+    "Personal shopping expenses",
+    "Lunch during travel days",
+    "Special premium event passes",
+    "Travel insurance",
+  ];
+
+  const handleHotelChange = (type) => {
+    setHotelType(type);
+    setBaseBudget(basePrices[type]);
   };
 
-  // total budget derived from per-day cost * number of days
-  const totalBudget = costPerDay[hotelType] * itinerary.length;
+  const getTotalCost = () => {
+    let num = 1;
+    if (groupSize.includes("–")) {
+      const [min, max] = groupSize.split("–").map(Number);
+      num = Math.round((min + max) / 2);
+    } else {
+      num = Number(groupSize);
+    }
+    return baseBudget * num;
+  };
 
-  // --- Handlers ---
   const handleDownload = async () => {
-    const input = contentRef.current;
-    const canvas = await html2canvas(input, {
-      scale: 2,
-      useCORS: true,
-      scrollY: -window.scrollY,
-    });
-    const imgData = canvas.toDataURL("image/png");
     const pdf = new jsPDF("p", "mm", "a4");
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("Diwali-Festival-of-Lights.pdf");
-  };
+    const width = pdf.internal.pageSize.getWidth();
+    let y = 15;
 
-  const handleSave = () => {
-    // Save edits by simply turning off editing mode.
-    // The itinerary state is already updated while editing.
-    setIsEditing(false);
-  };
+    const addTitle = (text, size = 18) => {
+      pdf.setFont("helvetica", "bold");
+      pdf.setFontSize(size);
+      pdf.text(text, 15, y);
+      y += 7;
+      pdf.setDrawColor(200);
+      pdf.line(15, y, width - 15, y);
+      y += 5;
+    };
 
-  // update a day's points (textarea returns newline-separated string)
-  const updateDayPoints = (index, text) => {
-    setItinerary((prev) => {
-      const copy = JSON.parse(JSON.stringify(prev));
-      copy[index].points = text.split("\n").filter((line) => line.trim() !== "");
-      return copy;
+    const addText = (text, size = 11) => {
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(size);
+      pdf.text(text, 15, y);
+      y += 6;
+    };
+
+    // ⭐ PDF updated for Diwali
+    addTitle("Diwali Festival Celebration Tour");
+    addText("📍 Mumbai, Maharashtra");
+    addText("📅 October 29 – November 7, 2024 (10 days)");
+    addText("⭐ 4.9");
+    addText(`💰 Total Cost: ₹${getTotalCost().toLocaleString()}`);
+
+    addTitle("Package Details", 14);
+    addText(`Hotel Type: ${hotelType}`);
+    addText(`Hotel Name: ${hotelNames[hotelType]}`);
+    addText(`Cost: ₹${baseBudget.toLocaleString()} per person`);
+    addText(`Group Size: ${groupSize} people`);
+    addText("Duration: 10 days");
+
+    addTitle("Event Highlights", 14);
+    highlights.forEach((h) => addText(`• ${h}`, 11));
+
+    addTitle("Detailed Itinerary", 14);
+    itinerary.forEach((item) => {
+      addText(`${item.day} (Est. Cost: ₹${item.cost.toLocaleString()})`, 12);
+      item.points.forEach((p) => addText(`• ${p}`, 11));
+      y += 3;
     });
+
+    addTitle("What's Included", 14);
+    included.forEach((item) => addText(`✓ ${item}`, 11));
+
+    addTitle("What's Not Included", 14);
+    notIncluded.forEach((item) => addText(`✗ ${item}`, 11));
+
+    pdf.save("Diwali-Festival-Itinerary.pdf");
   };
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      {/* Content to capture */}
       <div ref={contentRef}>
-        {/* Header Section */}
+
+        {/* Header */}
         <div
           className="relative text-white bg-cover bg-center"
-          style={{ backgroundImage: `url(${Diwalis})` }}
+          style={{ backgroundImage: `url(${Diwali1})` }}
         >
           <div className="absolute inset-0 bg-black/50"></div>
+
           <div className="relative max-w-6xl mx-auto px-4 py-8">
             <div className="mb-4">
               <Link
                 to="/destination"
                 className="inline-flex items-center gap-2 text-white bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg font-semibold transition"
               >
-                <ArrowLeft size={18} />
-                Back to Home
+                <ArrowLeft size={18} /> Back to Home
               </Link>
             </div>
 
             <div className="flex flex-wrap items-center gap-2 mb-3">
-              {["Diwali", "Festival", "Lights", "Celebration", "Shree Ram"].map(
-                (tag) => (
-                  <span
-                    key={tag}
-                    className="bg-white/20 px-2 py-1 rounded text-sm backdrop-blur-sm"
-                  >
-                    {tag}
-                  </span>
-                )
-              )}
+              {["Diwali", "Festival", "Lights", "Mumbai", "Celebration"].map(tag => (
+                <span key={tag} className="bg-white/20 px-2 py-1 rounded text-sm backdrop-blur-sm">
+                  {tag}
+                </span>
+              ))}
             </div>
 
-            <h1 className="text-4xl font-bold drop-shadow-md">
-              Diwali - Festival of Lights
-            </h1>
+            <h1 className="text-4xl font-bold drop-shadow-md">Diwali Festival Tour</h1>
 
             <div className="flex flex-wrap items-center gap-4 mt-3 text-sm">
-              <p className="flex items-center gap-1">
-                <MapPin size={16} /> Varanasi & Ayodhya, Uttar Pradesh
-              </p>
-              <p className="flex items-center gap-1">
-                <CalendarDays size={16} /> November 1–5, 2025
-              </p>
-              <p>⏱️ {itinerary.length} days</p>
-              <p className="flex items-center gap-1">
-                <Star size={16} className="text-yellow-300" /> 4.9
-              </p>
+              <p className="flex items-center gap-1"><MapPin size={16} /> Mumbai, Maharashtra</p>
+              <p className="flex items-center gap-1"><CalendarDays size={16} /> October 29 – November 7</p>
+              <p>⏱️ 10 days</p>
+              <p className="flex items-center gap-1"><Star size={16} className="text-yellow-300" /> 4.9</p>
             </div>
           </div>
         </div>
 
         {/* Main Content */}
         <div className="max-w-6xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8">
-          {/* Left Column */}
           <div className="md:col-span-2 space-y-6">
+
             {/* Overview */}
             <div className="bg-white p-6 rounded-2xl shadow">
               <h2 className="text-lg font-semibold mb-3">Event Overview</h2>
-              <p className="text-gray-700 leading-relaxed">
-                Celebrate the grandest Diwali in Varanasi and Ayodhya with
-                millions of diyas, spectacular fireworks, Ganga Aarti, and the
-                legendary Ram Lila performances. Experience the spiritual and
-                cultural magnificence of Diwali at its most sacred locations.
+              <p className="text-gray-700">
+                Celebrate Diwali in Mumbai with lights, festivals, cultural events, fireworks, and traditional sweets. Experience India’s brightest festival in its full glory!
               </p>
             </div>
 
             {/* Highlights */}
             <div className="bg-white p-6 rounded-2xl shadow">
-              <h2 className="text-lg font-semibold mb-3">Event Highlights</h2>
-              <ul className="list-disc ml-5 text-gray-700 space-y-2">
-                <li>Witness the spectacular Dev Deepawali on the Ganges ghats</li>
-                <li>Experience Ayodhya’s grand Diwali with millions of diyas</li>
-                <li>Visit beautifully decorated temples and venues</li>
-                <li>Attend traditional Ram Lila performances</li>
-                <li>Experience the grand Ganga Aarti during festivities</li>
+              <h2 className="text-lg font-semibold text-pink-600 mb-3">Event Highlights</h2>
+              <ul className="list-disc list-inside text-gray-700 space-y-1">
+                {highlights.map((h, i) => <li key={i}>{h}</li>)}
               </ul>
             </div>
 
             {/* Itinerary */}
             <div className="bg-white p-6 rounded-2xl shadow space-y-5">
               <h2 className="text-lg font-semibold mb-3">Detailed Itinerary</h2>
-
-              {itinerary.map((dayInfo, i) => (
+              {itinerary.map((item, i) => (
                 <div key={i}>
-                  <div className="flex items-center justify-between">
-                    <h3 className="font-semibold text-pink-600">{dayInfo.day}</h3>
-                    <p className="text-sm text-gray-600 font-medium">
-                      Est. Cost: ₹{costPerDay[hotelType].toLocaleString()}
-                    </p>
-                  </div>
+                  <h3 className="font-semibold text-pink-600">
+                    {item.day} (Est. Cost: ₹{item.cost.toLocaleString()})
+                  </h3>
 
                   {isEditing ? (
                     <textarea
-                      value={dayInfo.points.join("\n")}
-                      onChange={(e) => updateDayPoints(i, e.target.value)}
+                      value={item.points.join("\n")}
+                      onChange={(e) => {
+                        const newItinerary = [...itinerary];
+                        newItinerary[i].points = e.target.value.split("\n");
+                        setItinerary(newItinerary);
+                      }}
                       className="w-full border rounded-lg p-2 mt-2 text-sm text-gray-700"
-                      rows={Math.max(3, dayInfo.points.length + 1)}
+                      rows={item.points.length + 1}
                     />
                   ) : (
-                    <ul className="list-disc ml-5 text-gray-700 space-y-1 mt-2">
-                      {dayInfo.points.map((p, idx) => (
-                        <li key={idx}>{p}</li>
-                      ))}
+                    <ul className="list-disc list-inside text-gray-700 mt-1 space-y-1">
+                      {item.points.map((p, idx) => <li key={idx}>{p}</li>)}
                     </ul>
                   )}
                 </div>
               ))}
+            </div>
 
-              {/* --- What's Included / Excluded (moved here, styled like Ganesh.jsx) --- */}
-              <div className="bg-white p-6 rounded-2xl shadow mt-2">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <h2 className="text-lg font-semibold text-green-700 mb-3 flex items-center gap-2">
-                      <CheckCircle className="text-green-600" /> What's Included
-                    </h2>
-                    <ul className="space-y-2 text-gray-700">
-                      <li className="flex items-center gap-2">
-                        <CheckCircle size={16} className="text-green-600" /> 5 days accommodation in heritage hotels
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle size={16} className="text-green-600" /> All meals with festive cuisine
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle size={16} className="text-green-600" /> Transportation between Varanasi & Ayodhya
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle size={16} className="text-green-600" /> Professional spiritual guide
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle size={16} className="text-green-600" /> Boat rides on the Ganges
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div>
-                    <h2 className="text-lg font-semibold text-red-700 mb-3 flex items-center gap-2">
-                      <XCircle className="text-red-600" /> What's Excluded
-                    </h2>
-                    <ul className="space-y-2 text-gray-700">
-                      <li className="flex items-center gap-2">
-                        <XCircle size={16} className="text-red-600" /> International flights
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <XCircle size={16} className="text-red-600" /> Personal shopping
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <XCircle size={16} className="text-red-600" /> Individual puja costs
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <XCircle size={16} className="text-red-600" /> Travel insurance
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <XCircle size={16} className="text-red-600" /> Tips for guides/drivers
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+            {/* Included / Not Included */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white p-6 rounded-2xl shadow">
+                <h2 className="text-lg font-semibold text-green-700 mb-3 flex items-center gap-2">
+                  <CheckCircle className="text-green-600" /> What's Included
+                </h2>
+                <ul className="space-y-2 text-gray-700">
+                  {included.map((item, i) => (
+                    <li key={i} className="flex items-center gap-2">
+                      <CheckCircle size={16} className="text-green-600" /> {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              {/* --- end included/excluded --- */}
+
+              <div className="bg-white p-6 rounded-2xl shadow">
+                <h2 className="text-lg font-semibold text-red-700 mb-3 flex items-center gap-2">
+                  <XCircle className="text-red-600" /> What's Not Included
+                </h2>
+                <ul className="space-y-2 text-gray-700">
+                  {notIncluded.map((item, i) => (
+                    <li key={i} className="flex items-center gap-2">
+                      <XCircle size={16} className="text-red-600" /> {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
 
-          {/* Right Column - Booking Info */}
+          {/* Sidebar */}
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-2xl shadow">
               <p className="text-sm text-gray-500 mb-2">From</p>
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">
-                ₹{totalBudget.toLocaleString()}
-              </h2>
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">₹{baseBudget.toLocaleString()}</h2>
               <p className="text-sm text-gray-500">per person</p>
 
-              {/* Hotel Type Selector */}
+              {/* Hotel Selector */}
               <div className="mt-4">
                 <label className="block text-sm font-medium text-gray-600 mb-1">
                   Select Hotel Type:
                 </label>
                 <select
                   value={hotelType}
-                  onChange={(e) => setHotelType(e.target.value)}
+                  onChange={(e) => handleHotelChange(e.target.value)}
                   className="w-full border rounded-lg p-2 text-gray-700 focus:ring-2 focus:ring-pink-500"
                 >
                   <option value="3-star">3-Star Hotel</option>
@@ -312,13 +289,11 @@ export default function Diwali() {
                 </select>
               </div>
 
-              {/* Dynamic Hotel Name */}
               <div className="mt-4 bg-pink-50 border border-pink-200 rounded-lg p-3 text-sm text-gray-800">
                 <p className="font-semibold text-pink-700">🏨 Selected Hotel:</p>
                 <p>{hotelNames[hotelType]}</p>
               </div>
 
-              {/* Group Size */}
               <div className="my-4 text-sm text-gray-700 space-y-1">
                 {isEditing ? (
                   <input
@@ -328,16 +303,20 @@ export default function Diwali() {
                     className="w-full border rounded-lg px-2 py-1 text-gray-700"
                   />
                 ) : (
-                  <p>👥 Group size: {groupSize}</p>
+                  <>
+                    <p>👥 Group size: {groupSize} people</p>
+                    <p>📅 Duration: 10 days</p>
+                    <p>⭐ Rating: 4.9</p>
+                    <p className="font-semibold text-gray-800 mt-2">
+                      💰 Total Cost: ₹{getTotalCost().toLocaleString()}
+                    </p>
+                  </>
                 )}
-                <p>📅 Duration: {itinerary.length} days</p>
-                <p>⭐ Rating: 4.9</p>
               </div>
 
-              {/* Buttons */}
               {isEditing ? (
                 <button
-                  onClick={handleSave}
+                  onClick={() => setIsEditing(false)}
                   className="w-full mb-3 inline-flex items-center justify-center gap-2 bg-green-600 text-white py-2 rounded-xl font-semibold hover:bg-green-700 transition"
                 >
                   <Save size={18} /> Save Changes
@@ -357,10 +336,6 @@ export default function Diwali() {
               >
                 Download PDF
               </button>
-
-              <p className="text-xs text-center mt-2 text-gray-500">
-                Free cancellation up to 48 hours before the event
-              </p>
             </div>
           </div>
         </div>
@@ -370,19 +345,11 @@ export default function Diwali() {
       <div className="max-w-6xl mx-auto px-4 pb-10">
         <h2 className="text-lg font-semibold mb-4">Photo Gallery</h2>
         <div className="grid grid-cols-3 gap-4">
-          <div className="h-72 bg-gray-200 rounded-2xl overflow-hidden">
-            <img
-              src={Diwali1}
-              alt="Diwali 1"
-              className="w-full h-full object-cover"
-            />
+          <div className="h-72 bg-pink-200 rounded-2xl overflow-hidden">
+            <img src={Diwali2} alt="Diwali" className="w-full h-full object-cover" />
           </div>
           <div className="h-72 bg-gray-200 rounded-2xl overflow-hidden">
-            <img
-              src={Diwali2}
-              alt="Diwali 2"
-              className="w-full h-full object-cover"
-            />
+            <img src={Diwali3} alt="Diwali" className="w-full h-full object-cover" />
           </div>
           <div className="h-72 bg-gray-200 rounded-2xl flex items-center justify-center text-gray-400 text-2xl font-bold">
             +

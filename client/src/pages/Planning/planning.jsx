@@ -1,11 +1,10 @@
 'use client';
-
 import React, { useState } from 'react';
 import { FaPlus, FaTrash, FaPlaneDeparture, FaHotel, FaClipboardList, FaWallet, FaEye } from 'react-icons/fa';
 import { IoDocumentText } from 'react-icons/io5';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import bg from '/Travel-Planner/client/src/assets/planbg.jpg'
+import bg from '/Travel-Planner/client/src/assets/planbg.jpg';
 
 export default function TripPlannerPage() {
   const [plans, setPlans] = useState([{ date: '', time: '', description: '', budget: '' }]);
@@ -63,31 +62,29 @@ export default function TripPlannerPage() {
 
   const scrollToPlanning = () => {
     const planningEl = document.getElementById('planning');
-    if (planningEl) {
-      planningEl.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (planningEl) planningEl.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <>
       {/* Hero Section */}
       <div
-        className="h-screen bg-cover bg-center relative flex items-center justify-center text-white"
+        className="min-h-screen bg-cover bg-center relative flex items-center justify-center text-white px-4"
         style={{ backgroundImage: `url(${bg})` }}
- // Replace with your image
       >
         <div className="absolute inset-0 bg-black/40"></div>
-        <div className="relative z-10 text-center px-4">
+
+        <div className="relative z-10 text-center max-w-3xl">
           <h1 className="text-4xl md:text-6xl font-bold">
             Plan Your Perfect <span className="text-green-400">Adventure</span>
           </h1>
-          <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-white/90">
+
+          <p className="mt-4 text-lg md:text-xl text-white/90">
             Turn your travel dreams into reality with our comprehensive trip planning tools.
-            Discover destinations, create itineraries, and make memories that last a lifetime.
           </p>
 
-          
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
+          {/* Features */}
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Feature icon={<FaPlaneDeparture />} text="Flight Booking" />
             <Feature icon={<FaHotel />} text="Hotel Reservations" />
             <Feature icon={<FaClipboardList />} text="Itinerary Builder" />
@@ -104,79 +101,90 @@ export default function TripPlannerPage() {
       </div>
 
       {/* Planning Section */}
-      <div className="min-h-screen py-10 px-4 md:px-20 mt-28" id="planning">
+      <div className="min-h-screen py-10 px-4 md:px-20 mt-10" id="planning">
         <h1 className="text-4xl font-bold text-center text-green-700 mb-10">🌍 Trip Planner</h1>
 
-        <div className="w-[500px] mx-auto space-y-10">
-          {!preview && plans.map((plan, index) => (
-            <div
-              key={index}
-              className="bg-gradient-to-br from-purple-50 to-cyan-50 rounded-2xl shadow-xl border border-gray-100 relative"
-            >
-              <div className="bg-gradient-to-r from-purple-600 to-blue-400 text-white text-lg font-semibold px-4 py-2 rounded-t-2xl mb-4 p-5">
-                🗓️ Segment {index + 1}
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4 p-5">
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Date</label>
-                  <input
-                    type="date"
-                    value={plan.date}
-                    onChange={(e) => handleChange(index, 'date', e.target.value)}
-                    className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none"
-                  />
+        <div className="w-full max-w-2xl mx-auto space-y-10">
+          {!preview &&
+            plans.map((plan, index) => (
+              <div
+                key={index}
+                className="bg-gradient-to-br from-purple-50 to-cyan-50 rounded-2xl shadow-xl border border-gray-100 relative"
+              >
+                <div className="bg-gradient-to-r from-purple-600 to-blue-400 text-white text-lg font-semibold px-4 py-3 rounded-t-2xl">
+                  🗓️ Segment {index + 1}
                 </div>
-                <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Time</label>
-                  <input
-                    type="time"
-                    value={plan.time}
-                    onChange={(e) => handleChange(index, 'time', e.target.value)}
-                    className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:outline-none"
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Description</label>
-                  <textarea
-                    value={plan.description}
-                    onChange={(e) => handleChange(index, 'description', e.target.value)}
-                    placeholder="E.g., Visit Eiffel Tower, check-in hotel..."
-                    className="w-full px-4 py-2 border border-green-300 bg-green-50 rounded-md focus:ring-2 focus:ring-green-500 resize-none"
-                    rows={3}
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-semibold text-gray-700 mb-1">Budget (Rs.)</label>
-                  <input
-                    type="number"
-                    value={plan.budget}
-                    onChange={(e) => handleChange(index, 'budget', e.target.value)}
-                    placeholder="Enter estimated cost"
-                    className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500"
-                  />
-                </div>
-              </div>
-              {plans.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => removePlan(index)}
-                  className="absolute top-4 right-4 text-red-500 hover:text-red-700"
-                  title="Remove this segment"
-                >
-                  <FaTrash />
-                </button>
-              )}
-            </div>
-          ))}
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-5">
+                  {/* Date */}
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">Date</label>
+                    <input
+                      type="date"
+                      value={plan.date}
+                      onChange={(e) => handleChange(index, 'date', e.target.value)}
+                      className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500"
+                    />
+                  </div>
+
+                  {/* Time */}
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">Time</label>
+                    <input
+                      type="time"
+                      value={plan.time}
+                      onChange={(e) => handleChange(index, 'time', e.target.value)}
+                      className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500"
+                    />
+                  </div>
+
+                  {/* Description */}
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">Description</label>
+                    <textarea
+                      value={plan.description}
+                      onChange={(e) => handleChange(index, 'description', e.target.value)}
+                      rows={3}
+                      placeholder="E.g., Visit Eiffel Tower, check-in hotel..."
+                      className="w-full px-4 py-2 border border-green-300 bg-green-50 rounded-md focus:ring-2 focus:ring-green-500 resize-none"
+                    />
+                  </div>
+
+                  {/* Budget */}
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-semibold text-gray-700 mb-1">Budget (Rs.)</label>
+                    <input
+                      type="number"
+                      value={plan.budget}
+                      onChange={(e) => handleChange(index, 'budget', e.target.value)}
+                      placeholder="Enter estimated cost"
+                      className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500"
+                    />
+                  </div>
+                </div>
+
+                {/* Delete button */}
+                {plans.length > 1 && (
+                  <button
+                    onClick={() => removePlan(index)}
+                    className="absolute top-4 right-4 text-red-500 hover:text-red-700"
+                  >
+                    <FaTrash />
+                  </button>
+                )}
+              </div>
+            ))}
+
+          {/* Buttons */}
           {!preview && (
-            <div className="flex justify-center gap-6 flex-wrap">
+            <div className="flex justify-center gap-4 flex-wrap">
               <button
                 onClick={addPlan}
                 className="inline-flex items-center gap-2 bg-green-500 text-white px-6 py-2 rounded-full hover:bg-green-700 shadow"
               >
                 <FaPlus /> Add Segment
               </button>
+
               <button
                 onClick={handlePreview}
                 className="inline-flex items-center gap-2 bg-orange-500 text-white px-6 py-2 rounded-full hover:bg-blue-700 shadow"
@@ -186,11 +194,13 @@ export default function TripPlannerPage() {
             </div>
           )}
 
+          {/* Preview Section */}
           {preview && (
             <div className="bg-white p-6 rounded-2xl shadow-xl border border-gray-100 animate-fade-in">
               <h2 className="text-2xl font-bold mb-4 text-orange-400">Trip Itinerary Preview</h2>
+
               <div className="overflow-x-auto">
-                <table className="w-full table-auto border border-gray-200 text-sm">
+                <table className="w-full min-w-[700px] table-auto border border-gray-200 text-sm">
                   <thead className="bg-blue-100 text-gray-800 font-medium">
                     <tr>
                       <th className="border px-3 py-2">#</th>
@@ -201,6 +211,7 @@ export default function TripPlannerPage() {
                       <th className="border px-3 py-2">Actions</th>
                     </tr>
                   </thead>
+
                   <tbody>
                     {plans.map((plan, index) => (
                       <tr key={index} className="hover:bg-gray-50">
@@ -211,28 +222,26 @@ export default function TripPlannerPage() {
                         <td className="border px-3 py-2">Rs. {plan.budget}</td>
                         <td className="border px-3 py-2 text-center">
                           <div className="flex gap-2 justify-center">
-                            <button onClick={() => handleEdit(index)} className="text-blue-600 hover:underline">
-                              Edit
-                            </button>
-                            <button onClick={() => removePlan(index)} className="text-red-600 hover:underline">
-                              Delete
-                            </button>
+                            <button onClick={() => handleEdit(index)} className="text-blue-600 hover:underline">Edit</button>
+                            <button onClick={() => removePlan(index)} className="text-red-600 hover:underline">Delete</button>
                           </div>
                         </td>
                       </tr>
                     ))}
+
                     <tr className="bg-gray-100 font-semibold">
                       <td colSpan={4} className="text-right px-3 py-2 border">Total</td>
                       <td className="border px-3 py-2">Rs. {totalBudget.toFixed(2)}</td>
-                      <td className="border px-3 py-2"></td>
+                      <td className="border"></td>
                     </tr>
                   </tbody>
                 </table>
               </div>
-              <div className="mt-6 flex justify-end">
+
+              <div className="mt-6 flex justify-center md:justify-end">
                 <button
                   onClick={downloadPDF}
-                  className="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 transition flex"
+                  className="bg-purple-600 text-white px-6 py-2 rounded-full hover:bg-purple-700 flex items-center gap-2"
                 >
                   <IoDocumentText /> Download PDF
                 </button>
