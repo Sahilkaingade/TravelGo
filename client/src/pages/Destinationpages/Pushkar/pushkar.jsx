@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 
 // Using the same images as provided (no change to assets)
-import Holi1 from "/Travel-Planner/client/src/assets/pushkar.png";
-import Holi2 from "/Travel-Planner/client/src/assets/pushkar.png";
-import Holi3 from "/Travel-Planner/client/src/assets/pushkar.png";
+import Holi1 from "../../assets/pushkar.png";
+import Holi2 from "../../assets/pushkar.png";
+import Holi3 from "../../assets/pushkar.png";
 
 export default function CamelFestival() {
   const contentRef = useRef();

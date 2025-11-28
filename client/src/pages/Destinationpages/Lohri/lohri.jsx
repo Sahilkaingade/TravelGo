@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 
 // Using the same images as provided
-import Holi1 from "/Travel-Planner/client/src/assets/lohri.png";
-import Holi2 from "/Travel-Planner/client/src/assets/lohri.png";
-import Holi3 from "/Travel-Planner/client/src/assets/lohri.png";
+import Holi1 from "../../assets/lohri.png";
+import Holi2 from "../../assets/lohri.png";
+import Holi3 from "../../assets/lohri.png";
 
 export default function Lohri() {
   const contentRef = useRef();

@@ -13,9 +13,9 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 
 // ⭐ Update IMAGES here
-import Durga1 from "/Travel-Planner/client/src/assets/durga1.png";
-import Durga2 from "/Travel-Planner/client/src/assets/durga2.png";
-import Durga3 from "/Travel-Planner/client/src/assets/durga1.png";
+import Durga1 from "../../assets/durga1.png";
+import Durga2 from "../../assets/durga2.png";
+import Durga3 from "../../assets/durga1.png";
 
 export default function DurgaPuja() {
   const contentRef = useRef();

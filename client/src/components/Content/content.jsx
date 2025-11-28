@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Planebg from '/Travel-Planner/client/src/assets/hero-shapr-1-2.png';
-import Bag from '/Travel-Planner/client/src/assets/hero-1.png';
+import Planebg from '../../assets/hero-shapr-1-2.png';
+import Bag from '../../assets/hero-1.png';
 
 export default function Content() {
   const navigate = useNavigate();

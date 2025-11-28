@@ -2,10 +2,10 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
 
-import destination1 from "/Travel-Planner/client/src/assets/maharashtra.jpg";
-import destination2 from "/Travel-Planner/client/src/assets/kerala.jpg";
-import destination3 from "/Travel-Planner/client/src/assets/kashmir.jpg";
-import destination4 from "/Travel-Planner/client/src/assets/goa.jpg";
+import destination1 from "../../assets/maharashtra.jpg";
+import destination2 from "../../assets/kerala.jpg";
+import destination3 from "../../assets/kashmir.jpg";
+import destination4 from "../../assets/goa.jpg";
 
 const imageVariants = {
   hidden: { opacity: 0, y: 50 },

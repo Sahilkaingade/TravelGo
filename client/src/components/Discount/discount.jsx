@@ -1,6 +1,6 @@
 import React from 'react';
-import Discountbg from '/Travel-Planner/client/src/assets/discountbg.jpg';
-import ctaman from '/Travel-Planner/client/src/assets/cta-man-1-1.png';
+import Discountbg from '../../assets/discountbg.jpg';
+import ctaman from '../../assets/cta-man-1-1.png';
 import CountdownTimer from '../CountdownTimer.jsx/countdowntimer';
 import { FaAngleDoubleRight } from 'react-icons/fa';
 

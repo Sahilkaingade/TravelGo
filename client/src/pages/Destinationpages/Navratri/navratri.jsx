@@ -12,9 +12,9 @@ import {
 import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 
-import Navratris from "/Travel-Planner/client/src/assets/navratri.png";
-import Dandiya from "/Travel-Planner/client/src/assets/dandiya.jpg";
-import Dandiya2 from "/Travel-Planner/client/src/assets/dandiya2.jpg";
+import Navratris from "../../assets/navratri.png";
+import Dandiya from "../../assets/dandiya.jpg";
+import Dandiya2 from "../../assets/dandiya2.jpg";
 
 export default function Navratri() {
   const contentRef = useRef();

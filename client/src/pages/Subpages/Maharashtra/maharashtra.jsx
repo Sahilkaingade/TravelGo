@@ -1,7 +1,7 @@
 import { ChevronLeft, Clock, Bus, Plane, Hotel, Download } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import maharashtraImg from "/Travel-Planner/client/src/assets/fort.jpg";
+import maharashtraImg from "../../assets/fort.jpg";
 import jsPDF from "jspdf";
 
 export default function Maharashtra() {

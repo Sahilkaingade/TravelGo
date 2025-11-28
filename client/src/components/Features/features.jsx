@@ -5,10 +5,10 @@ import { LuCalendarDays } from 'react-icons/lu';
 import { useNavigate } from 'react-router-dom';
 
 // Images
-import Fp1 from '/Travel-Planner/client/src/assets/ganpati.png';
-import Fp2 from '/Travel-Planner/client/src/assets/navratri2.png';
-import Fp3 from '/Travel-Planner/client/src/assets/holi.png';
-import Fp4 from '/Travel-Planner/client/src/assets/diwali.png';
+import Fp1 from '../../assets/ganpati.png';
+import Fp2 from '../../assets/navratri2.png';
+import Fp3 from '../../assets/holi.png';
+import Fp4 from '../../assets/diwali.png';
 
 // Tours Data
 const tours = [

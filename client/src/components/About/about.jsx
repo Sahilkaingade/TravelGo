@@ -1,7 +1,7 @@
 import React from 'react';
-import Rafting from '/Travel-Planner/client/src/assets/about-5-1.png';
-import Rafting2 from '/Travel-Planner/client/src/assets/about-s-5-1.png';
-import bgabout from '/Travel-Planner/client/src/assets/bg-about.png';
+import Rafting from '../../assets/about-5-1.png';
+import Rafting2 from '../../assets/about-s-5-1.png';
+import bgabout from '../../assets/bg-about.png';
 import { FaAngleDoubleRight, FaMapMarkerAlt, FaCalendarCheck } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 

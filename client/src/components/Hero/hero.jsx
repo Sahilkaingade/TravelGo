@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import slide1 from '/Travel-Planner/client/src/assets/bg2.png';
-import slide2 from '/Travel-Planner/client/src/assets/bg3.png';
-import slide3 from '/Travel-Planner/client/src/assets/bg4.png';
+import slide1 from '../../assets/bg2.png';
+import slide2 from '../../assets/bg3.png';
+import slide3 from '../../assets/bg4.png';
 import Content from '../Content/content';
 
 // ✅ Move images outside the component

@@ -13,9 +13,9 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 
 // ⭐ Update IMAGES here
-import Onam1 from "/Travel-Planner/client/src/assets/onam.png";
-import Onam2 from "/Travel-Planner/client/src/assets/onam.png";
-import Onam3 from "/Travel-Planner/client/src/assets/onam.png";
+import Onam1 from "../../assets/onam.png";
+import Onam2 from "../../assets/onam.png";
+import Onam3 from "../../assets/onam.png";
 
 export default function OnamBihuFestival() {
   const contentRef = useRef();

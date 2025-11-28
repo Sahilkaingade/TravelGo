@@ -4,7 +4,7 @@ import { FaPlus, FaTrash, FaPlaneDeparture, FaHotel, FaClipboardList, FaWallet, 
 import { IoDocumentText } from 'react-icons/io5';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import bg from '/Travel-Planner/client/src/assets/planbg.jpg';
+import bg from '../../assets/planbg.jpg';
 
 export default function TripPlannerPage() {
   const [plans, setPlans] = useState([{ date: '', time: '', description: '', budget: '' }]);
