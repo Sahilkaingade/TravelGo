@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import logo from "/Travel-Planner/client/src/assets/logo.png";
+import logo from "../../assets/logo.png";
 import { FaShoppingCart, FaTelegram } from "react-icons/fa";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { AuthContext } from "../../context/AuthContext.jsx";
