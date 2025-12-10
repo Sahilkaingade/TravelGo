@@ -1,7 +1,7 @@
 import { ChevronLeft, Clock, Bus, Plane, Hotel, Download, Waves, Mountain, Trees, Camera } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import keralaImg from "../../assets/keralabg.jpeg";
+import keralaImg from "../../../assets/keralabg.jpeg";
 import jsPDF from "jspdf";
 
 export default function Kerala() {

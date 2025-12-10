@@ -2,9 +2,9 @@ import React, { useRef, useState } from "react";
 import { CalendarDays, MapPin, Star, ArrowLeft, Pencil, Save, CheckCircle, XCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
-import GanpatiBg from "../../assets/ganpati.png";
-import lalbaugh from "../../assets/lalbaugh.jpg";
-import Chintamani from "../../assets/chintamani.png";
+import GanpatiBg from "../../../assets/ganpati.png";
+import lalbaugh from "../../../assets/lalbaugh.jpg";
+import Chintamani from "../../../assets/chintamani.png";
 
 export default function Ganesh() {
   const contentRef = useRef();

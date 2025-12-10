@@ -1,7 +1,7 @@
 import { ChevronLeft, Clock, Bus, Plane, Hotel, Download, Waves, Mountain, Trees, Camera } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import kashmirImg from "../../assets/kashmirbg.jpeg";
+import kashmirImg from "../../../assets/kashmirbg.jpeg";
 import jsPDF from "jspdf";
 
 export default function Kashmir() {

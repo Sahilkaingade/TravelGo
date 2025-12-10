@@ -2,9 +2,9 @@ import React, { useRef, useState } from "react";
 import { CalendarDays, MapPin, Star, ArrowLeft, Pencil, Save, CheckCircle, XCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
-import Diwali1 from "../../assets/diwali.png";
-import Diwali2 from "../../assets/diwali1.jpg";
-import Diwali3 from "../../assets/diwali2.jpg";
+import Diwali1 from "../../../assets/diwali.png";
+import Diwali2 from "../../../assets/diwali1.jpg";
+import Diwali3 from "../../../assets/diwali2.jpg";
 
 export default function Diwali() {
   const contentRef = useRef();

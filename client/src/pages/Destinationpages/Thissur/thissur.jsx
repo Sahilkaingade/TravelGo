@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 
 // Using the same images as you said (no change)
-import Holi1 from "../../assets/thissur.png";
-import Holi2 from "../../assets/thissur.png";
-import Holi3 from "../../assets/thissur.png";
+import Holi1 from "../../../assets/thissur.png";
+import Holi2 from "../../../assets/thissur.png";
+import Holi3 from "../../../assets/thissur.png";
 
 export default function Thrissur() {
   const contentRef = useRef();

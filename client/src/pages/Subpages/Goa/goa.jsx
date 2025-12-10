@@ -1,7 +1,7 @@
 import { ChevronLeft, Clock, Bus, Plane, Hotel, Download, Waves, Mountain, Trees, Camera } from "lucide-react";
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import goaImg from "../../assets/goabg.jpg";
+import goaImg from "../../../assets/goabg.jpg";
 import jsPDF from "jspdf";
 
 export default function Goa() {

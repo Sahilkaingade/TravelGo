@@ -13,9 +13,9 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 
 // ⭐ Update IMAGES here
-import Pongal1 from "../../assets/pongal.png";
-import Pongal2 from "../../assets/pongal.png";
-import Pongal3 from "../../assets/pongal.png";
+import Pongal1 from "../../../assets/pongal.png";
+import Pongal2 from "../../../assets/pongal.png";
+import Pongal3 from "../../../assets/pongal.png";
 
 export default function PongalFestival() {
   const contentRef = useRef();

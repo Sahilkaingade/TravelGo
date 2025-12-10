@@ -13,9 +13,9 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 
 // Using the same images as provided (no change to assets)
-import Holi1 from "../../assets/hornbill.png";
-import Holi2 from "../../assets/hornbill.png";
-import Holi3 from "../../assets/hornbill.png";
+import Holi1 from "../../../assets/hornbill.png";
+import Holi2 from "../../../assets/hornbill.png";
+import Holi3 from "../../../assets/hornbill.png";
 
 export default function HornbillFestival() {
   const contentRef = useRef();

@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 
 // Replace these with your real Holi images
-import Holi1 from "../../assets/holi.png";
-import Holi2 from "../../assets/holigg.png";
-import Holi3 from "../../assets/holiggg.png";
+import Holi1 from "../../../assets/holi.png";
+import Holi2 from "../../../assets/holigg.png";
+import Holi3 from "../../../assets/holiggg.png";
 
 export default function Holi() {
   const contentRef = useRef();

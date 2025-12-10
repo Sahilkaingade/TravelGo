@@ -12,9 +12,9 @@ import {
 import { Link } from "react-router-dom";
 import jsPDF from "jspdf";
 
-import Makar1 from "../../assets/sankranthi1.png";
-import Kite1 from "../../assets/sankranthi2.jpg";
-import Kite2 from "../../assets/sankranthi3.jpg";
+import Makar1 from "../../../assets/sankranthi1.png";
+import Kite1 from "../../../assets/sankranthi2.jpg";
+import Kite2 from "../../../assets/sankranthi3.jpg";
 
 export default function MakarSankranti() {
   const contentRef = useRef();
