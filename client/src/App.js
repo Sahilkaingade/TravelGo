@@ -41,6 +41,8 @@ import Pushkar from "./pages/Destinationpages/Pushkar/pushkar.jsx";
 import Hornbill from "./pages/Destinationpages/Hornbill/hornbill.jsx";
 import Lohri from "./pages/Destinationpages/Lohri/lohri.jsx";
 
+import TourCard from "./pages/TourCard/TourCard.jsx";
+
 
 function AppContent() {
   const location = useLocation();
@@ -66,6 +68,7 @@ function AppContent() {
     "/pongal-festival",
     "/pushkar-fair",
     "/hornbill-festival",
+    "/tour-card",
     "/lohri-festival"
   ].includes(location.pathname);
 
@@ -109,6 +112,9 @@ function AppContent() {
         <Route path="/hornbill-festival" element={<Hornbill />} />
         <Route path="/lohri-festival" element={<Lohri />} />
         <Route path="/thissur" element={<Thissur />} />
+
+        {/* Hobby Based pages */}
+        <Route path="/tour-card/:id" element={<TourCard />} />
       </Routes>
 
       {!hideHeaderAndFooter && !hideFooterOnly && <Footer />}
