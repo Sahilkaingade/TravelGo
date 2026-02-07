@@ -1,197 +1,198 @@
+import Goa from '../assets/Goa1.jpg';
+import Ladakh from '../assets/Ladakh1.jpg';
+import Kerala from '../assets/kerala1.jpg';
+import Rishikesh from '../assets/Rushikesh.jpg';
+import Jaipur from '../assets/Jaipur1.jpg';
+import Andaman from '../assets/Andaman1.jpg';
+import Sikkim from '../assets/Sikkim.jpg';
+import Darjeeling from '../assets/Darjeeling.jpg';
+import Mysore from '../assets/Mysore.jpg';
+import Kolkata from '../assets/Kolkata.jpg';
+import Shimla from '../assets/Manali.jpg';
+import Kanyakumari from '../assets/Kanyakumari.jpg';
+import Mumbai from '../assets/Mumbai.jpg';
+import Varanasi from '../assets/Varanasi.jpg';
+import Hampi from '../assets/Hampi.jpg';
+
 export const indianTrips = [
   {
     id: 1,
     title: 'Romantic Goa Beach Retreat',
     location: 'North Goa, India',
-    price: '$899',
+    price: '₹74,700',
     rating: 4.9,
     duration: '5 days',
     type: 'Couple',
     difficulty: 'Easy',
     tags: ['Beach Access', 'Spa & Wellness', 'Local Cuisine'],
-    image:
-      'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1350&q=80',
+    image: Goa,
   },
   {
     id: 2,
     title: 'Leh Ladakh Adventure Expedition',
     location: 'Ladakh, India',
-    price: '$1199',
+    price: '₹99,500',
     rating: 4.8,
     duration: '7 days',
     type: 'Group',
     difficulty: 'Hard',
     tags: ['Mountains', 'Bike Trip', 'Camping'],
-    image:
-      'https://images.unsplash.com/photo-1551776235-dde6d4829808?auto=format&fit=crop&w=1350&q=80',
+    image: Ladakh,
   },
   {
     id: 3,
     title: 'Kerala Backwaters Houseboat Experience',
     location: 'Alleppey, Kerala, India',
-    price: '$699',
+    price: '₹58,000',
     rating: 4.7,
     duration: '4 days',
     type: 'Family',
     difficulty: 'Easy',
     tags: ['Houseboat', 'Nature', 'Local Cuisine'],
-    image:
-      'https://images.unsplash.com/photo-1588176280661-9217a5e18ee6?auto=format&fit=crop&w=1350&q=80',
+    image: Kerala,
   },
   {
     id: 4,
     title: 'Rishikesh River Rafting & Yoga Retreat',
     location: 'Rishikesh, Uttarakhand, India',
-    price: '$499',
+    price: '₹41,400',
     rating: 4.6,
     duration: '3 days',
     type: 'Group',
     difficulty: 'Medium',
     tags: ['Adventure', 'Yoga', 'River Rafting'],
-    image:
-      'https://images.unsplash.com/photo-1585238342028-6e7b0e869f80?auto=format&fit=crop&w=1350&q=80',
+    image: Rishikesh,
   },
   {
     id: 5,
     title: 'Jaipur Cultural & Heritage Tour',
     location: 'Jaipur, Rajasthan, India',
-    price: '$599',
+    price: '₹49,700',
     rating: 4.5,
     duration: '4 days',
     type: 'Family',
     difficulty: 'Easy',
     tags: ['Palaces', 'Local Culture', 'Food Tour'],
-    image:
-      'https://images.unsplash.com/photo-1562158070-4f0b7a3f0b57?auto=format&fit=crop&w=1350&q=80',
+    image: Jaipur,
   },
   {
     id: 6,
     title: 'Andaman Island Scuba Diving Adventure',
     location: 'Havelock Island, Andaman, India',
-    price: '$1299',
+    price: '₹1,07,800',
     rating: 4.9,
     duration: '6 days',
     type: 'Couple',
     difficulty: 'Medium',
     tags: ['Scuba Diving', 'Beach Access', 'Snorkeling'],
-    image:
-      'https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=1350&q=80',
+    image: Andaman,
   },
   {
     id: 7,
     title: 'Sikkim & Gangtok Mountain Exploration',
     location: 'Gangtok, Sikkim, India',
-    price: '$999',
+    price: '₹82,900',
     rating: 4.8,
     duration: '5 days',
     type: 'Group',
     difficulty: 'Hard',
     tags: ['Mountains', 'Trekking', 'Cultural Experience'],
-    image:
-      'https://images.unsplash.com/photo-1585559606780-4a3763e4a9ed?auto=format&fit=crop&w=1350&q=80',
+    image: Sikkim,
   },
   {
     id: 8,
     title: 'Darjeeling Tea Garden & Heritage Tour',
     location: 'Darjeeling, West Bengal, India',
-    price: '$799',
+    price: '₹66,300',
     rating: 4.7,
     duration: '4 days',
     type: 'Couple',
     difficulty: 'Easy',
     tags: ['Tea Gardens', 'Scenic Views', 'Local Culture'],
-    image:
-      'https://images.unsplash.com/photo-1541260686-1b68c0e0b5c0?auto=format&fit=crop&w=1350&q=80',
+    image: Darjeeling,
   },
   {
     id: 9,
     title: 'Mysore Palace & Coorg Coffee Tour',
     location: 'Mysore & Coorg, Karnataka, India',
-    price: '$699',
+    price: '₹58,000',
     rating: 4.6,
     duration: '5 days',
     type: 'Family',
     difficulty: 'Easy',
     tags: ['Palaces', 'Coffee Plantations', 'Nature'],
-    image:
-      'https://images.unsplash.com/photo-1563201515-cf2b2f2f3b23?auto=format&fit=crop&w=1350&q=80',
+    image: Mysore,
   },
   {
     id: 10,
     title: 'Kolkata Heritage & Culinary Tour',
     location: 'Kolkata, West Bengal, India',
-    price: '$499',
+    price: '₹41,400',
     rating: 4.5,
     duration: '3 days',
     type: 'Couple',
     difficulty: 'Easy',
     tags: ['Food Tour', 'Historical Sites', 'Local Culture'],
-    image:
-      'https://images.unsplash.com/photo-1571731956672-0b26f6930b9d?auto=format&fit=crop&w=1350&q=80',
+    image: Kolkata,
   },
   {
     id: 11,
     title: 'Shimla & Manali Winter Wonderland',
     location: 'Himachal Pradesh, India',
-    price: '$899',
+    price: '₹74,700',
     rating: 4.8,
     duration: '6 days',
     type: 'Group',
     difficulty: 'Medium',
     tags: ['Snow Activities', 'Hiking', 'Local Cuisine'],
-    image:
-      'https://images.unsplash.com/photo-1603205601774-3d2cf0d0d11a?auto=format&fit=crop&w=1350&q=80',
+    image: Shimla,
   },
   {
     id: 12,
     title: 'Kanyakumari Sunrise & Temple Tour',
     location: 'Kanyakumari, Tamil Nadu, India',
-    price: '$599',
+    price: '₹49,700',
     rating: 4.6,
     duration: '3 days',
     type: 'Couple',
     difficulty: 'Easy',
     tags: ['Sunrise Views', 'Temples', 'Local Culture'],
-    image:
-      'https://images.unsplash.com/photo-1587502536263-77c3e22e4a2b?auto=format&fit=crop&w=1350&q=80',
+    image: Kanyakumari,
   },
   {
     id: 13,
     title: 'Mumbai City & Bollywood Experience',
     location: 'Mumbai, Maharashtra, India',
-    price: '$699',
+    price: '₹58,000',
     rating: 4.5,
     duration: '3 days',
     type: 'Group',
     difficulty: 'Easy',
     tags: ['City Tour', 'Bollywood', 'Nightlife'],
-    image:
-      'https://images.unsplash.com/photo-1598174264075-913dd660c007?auto=format&fit=crop&w=1350&q=80',
+    image: Mumbai,
   },
   {
     id: 14,
     title: 'Varanasi Spiritual & Ganga Aarti Tour',
     location: 'Varanasi, Uttar Pradesh, India',
-    price: '$499',
+    price: '₹41,400',
     rating: 4.7,
     duration: '3 days',
     type: 'Couple',
     difficulty: 'Easy',
     tags: ['River Aarti', 'Temples', 'Cultural Experience'],
-    image:
-      'https://images.unsplash.com/photo-1576402187873-cd89991c180e?auto=format&fit=crop&w=1350&q=80',
+    image: Varanasi,
   },
   {
     id: 15,
     title: 'Hampi Heritage & Adventure Tour',
     location: 'Hampi, Karnataka, India',
-    price: '$799',
+    price: '₹66,300',
     rating: 4.8,
     duration: '4 days',
     type: 'Group',
     difficulty: 'Medium',
     tags: ['Historical Ruins', 'Adventure', 'Photography'],
-    image:
-      'https://images.unsplash.com/photo-1581090700227-5e92c5e2b874?auto=format&fit=crop&w=1350&q=80',
+    image: Hampi,
   },
 ];
