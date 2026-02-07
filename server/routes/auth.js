@@ -9,25 +9,25 @@ router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ success: false, msg: "User already exists" });
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create user
+    // ✅ DO NOT hash here
     const newUser = new User({
       name,
       email,
-      password: hashedPassword,
+      password, // plain password
     });
-    await newUser.save();
 
-    // Optionally, generate token on register
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+    await newUser.save(); // 🔥 pre-save hook hashes it
+
+    const token = jwt.sign(
+      { id: newUser._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
 
     res.status(201).json({
       success: true,
@@ -46,16 +46,22 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if user exists
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ success: false, msg: "Invalid credentials" });
+    if (!user) {
+      return res.status(400).json({ success: false, msg: "Invalid credentials" });
+    }
 
-    // Compare password
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ success: false, msg: "Invalid credentials" });
+    // ✅ use schema method
+    const isMatch = await user.matchPassword(password);
+    if (!isMatch) {
+      return res.status(400).json({ success: false, msg: "Invalid credentials" });
+    }
 
-    // Generate JWT token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" });
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
 
     res.json({
       success: true,
