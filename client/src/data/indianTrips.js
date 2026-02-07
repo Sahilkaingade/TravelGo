@@ -17,15 +17,39 @@ import Hampi from '../assets/Hampi.jpg';
 export const indianTrips = [
   {
     id: 1,
-    title: 'Romantic Goa Beach Retreat',
-    location: 'North Goa, India',
-    price: '₹74,700',
-    rating: 4.9,
-    duration: '5 days',
-    type: 'Couple',
-    difficulty: 'Easy',
-    tags: ['Beach Access', 'Spa & Wellness', 'Local Cuisine'],
-    image: Goa,
+  title: "Romantic Goa Beach Retreat",
+  location: "North Goa, India",
+  price: "75,000",
+  rating: 4.9,
+  duration: "5 days",
+  difficulty: "Easy",
+  groupSize: "2–6 people",
+  bestTime: "October – March",
+  pickup: "Goa Airport / Railway Station",
+  accommodation: "4★ Beach Resort",
+  meals: "Breakfast & Dinner",
+  description:
+    "Enjoy pristine beaches, vibrant nightlife, and luxury stays in Goa.",
+  itinerary: [
+    "Day 1: Arrival & Beach Leisure",
+    "Day 2: North Goa Sightseeing",
+    "Day 3: Water Sports & Cruise",
+    "Day 4: South Goa Temples",
+    "Day 5: Departure"
+  ],
+  inclusions: [
+    "Hotel accommodation",
+    "Daily meals",
+    "Sightseeing tours",
+    "Airport pickup & drop"
+  ],
+  exclusions: [
+    "Personal expenses",
+    "Travel insurance",
+    "Alcoholic beverages"
+  ],
+  tags: ["Beach", "Spa", "Couple"],
+  image: Goa,
   },
   {
     id: 2,
