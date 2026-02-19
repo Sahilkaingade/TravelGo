@@ -3,7 +3,6 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-require("dotenv").config();
 
 const app = express();
 
@@ -19,7 +18,6 @@ const helpRoutes = require("./routes/help");
 const downloadRoutes = require("./routes/downloads");
 const contactRoutes = require("./routes/contact");
 
-// API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/feedback", feedbackRoutes);
@@ -27,12 +25,11 @@ app.use("/api/help", helpRoutes);
 app.use("/api/downloads", downloadRoutes);
 app.use("/api/contact", contactRoutes);
 
-// Root route
+// Root
 app.get("/", (req, res) => {
   res.send("Backend API is running 🚀");
 });
 
-// MongoDB connection + Server start
 const PORT = process.env.PORT || 5000;
 
 mongoose
@@ -44,6 +41,5 @@ mongoose
     );
   })
   .catch((err) => {
-    console.error("❌ MongoDB connection error:", err);
-    process.exit(1);
+    console.error("❌ MongoDB error:", err);
   });

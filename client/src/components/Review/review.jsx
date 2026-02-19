@@ -8,27 +8,41 @@ export default function ReviewForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (rating === 0) {
+      alert("Please select rating");
+      return;
+    }
+
     const formData = { name, rating, review };
 
     try {
-      const response = await fetch("http://localhost:5000/api/feedback", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/feedback`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await response.json();
-      console.log("Review Submitted:", data);
 
-      // Clear form
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+
+      alert("✅ Review submitted successfully!");
+
       setName("");
       setReview("");
       setRating(0);
       setHover(0);
-      alert("✅ Review submitted successfully!");
     } catch (err) {
       console.error("Error submitting review:", err);
-      alert("❌ Failed to submit review. Try again.");
+      alert("❌ Failed to submit review");
     }
   };
 
@@ -42,7 +56,6 @@ export default function ReviewForm() {
           Leave a Review
         </h2>
 
-        {/* Star Rating */}
         <div className="flex justify-center mb-4">
           {[...Array(5)].map((star, index) => {
             index += 1;
@@ -51,7 +64,9 @@ export default function ReviewForm() {
                 type="button"
                 key={index}
                 className={`text-3xl ${
-                  index <= (hover || rating) ? "text-yellow-400" : "text-gray-300"
+                  index <= (hover || rating)
+                    ? "text-yellow-400"
+                    : "text-gray-300"
                 }`}
                 onClick={() => setRating(index)}
                 onMouseEnter={() => setHover(index)}
@@ -63,36 +78,31 @@ export default function ReviewForm() {
           })}
         </div>
 
-        {/* Name Input */}
         <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-1">Name</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
             placeholder="Enter your name"
+            className="w-full p-2 border rounded-lg"
             required
           />
         </div>
 
-        {/* Review Input */}
         <div className="mb-4">
-          <label className="block text-gray-700 font-medium mb-1">Review</label>
           <textarea
             value={review}
             onChange={(e) => setReview(e.target.value)}
             rows="4"
-            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
             placeholder="Write your review..."
+            className="w-full p-2 border rounded-lg"
             required
           />
         </div>
 
-        {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200"
+          className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg"
         >
           Submit Review
         </button>
