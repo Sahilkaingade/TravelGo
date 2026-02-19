@@ -1,14 +1,36 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { indianTrips } from "../../data/indianTrips";
 
 const TourCard = () => {
   const { id } = useParams();
-  const [selectedCity, setSelectedCity] = useState(null);
-  const [openDay, setOpenDay] = useState(null);
-
   const trip = indianTrips.find((t) => t.id === Number(id));
+
+  const [openDay, setOpenDay] = useState(null);
+  const [expanded, setExpanded] = useState(false);
+  const [selectedCity, setSelectedCity] = useState(null);
+
   if (!trip) return <div className="p-10 text-center">Tour not found</div>;
+
+  const {
+    title,
+    location,
+    price,
+    rating,
+    duration,
+    difficulty,
+    groupSize = "Flexible",
+    bestTime = "All year",
+    pickup = "Airport pickup",
+    accommodation = "Standard Hotel",
+    meals = "As per itinerary",
+    description = "No description available.",
+    itinerary = [],
+    inclusions = [],
+    exclusions = [],
+    tags = [],
+    image,
+  } = trip;
 
   const cities = ["Mumbai", "Delhi", "Bangalore", "Pune", "Hyderabad"];
 
@@ -23,90 +45,125 @@ const TourCard = () => {
   return (
     <div className="bg-gray-50">
 
-      {/* HERO WITH GALLERY */}
-      <div className="relative h-[85vh]">
+      {/* HERO GALLERY */}
+      <div className="grid grid-cols-3 grid-rows-2 gap-2 h-[80vh] p-4">
         <img
-  src={trip.image}
-  alt={trip.title}
-  className="absolute inset-0 w-full h-full object-cover"
+          src={image}
+          alt={title}
+          className="col-span-2 row-span-2 object-cover w-full h-full rounded-3xl"
+        />
+        <img
+  src={image}
+  alt={`${title} preview`}
+  className="object-cover w-full h-full rounded-3xl"
 />
 
-        <div className="absolute inset-0 bg-black/50" />
+<img
+  src={image}
+  alt={`${title} view`}
+  className="object-cover w-full h-full rounded-3xl"
+/>
 
-        {/* FLOATING BADGES */}
-        <div className="absolute top-6 left-6 flex gap-3">
-          <span className="bg-white px-4 py-2 rounded-full font-semibold">
-            ⭐ {trip.rating}
-          </span>
-          <span className="bg-green-500 text-white px-4 py-2 rounded-full">
-            Bestseller
-          </span>
-        </div>
-
-        {/* HERO CONTENT */}
-        <div className="relative z-10 h-full flex items-end px-10 pb-16">
-          <div className="max-w-3xl text-white">
-            <h1 className="text-5xl font-extrabold">{trip.title}</h1>
-            <p className="text-lg opacity-90 mt-2">{trip.location}</p>
-
-            {/* STATS STRIP */}
-            <div className="mt-6 grid grid-cols-4 gap-4">
-              <Stat label="Duration" value={trip.duration} />
-              <Stat label="Difficulty" value={trip.difficulty} />
-              <Stat label="Group" value={trip.groupSize} />
-              <Stat label="Price" value={`₹${trip.price}`} />
-            </div>
-          </div>
-        </div>
       </div>
 
-      {/* MAIN CONTENT */}
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-3 gap-10 py-14">
 
-        {/* LEFT CONTENT */}
-        <div className="lg:col-span-2 space-y-12">
+        {/* LEFT SIDE */}
+        <div className="lg:col-span-2 space-y-10">
 
-          {/* ABOUT */}
+          {/* TITLE */}
+          <div>
+            <h1 className="text-4xl font-bold">{title}</h1>
+            <p className="text-gray-600">{location}</p>
+            <div className="flex gap-4 mt-3">
+              <span className="bg-green-100 px-3 py-1 rounded-full">
+                ⭐ {rating}
+              </span>
+              <span className="bg-gray-100 px-3 py-1 rounded-full">
+                {duration}
+              </span>
+              <span className="bg-gray-100 px-3 py-1 rounded-full">
+                {difficulty}
+              </span>
+            </div>
+          </div>
+
+          {/* DESCRIPTION */}
           <Section title="About this experience">
-            <p>{trip.description}</p>
+            <p>
+              {expanded
+                ? description
+                : description.slice(0, 150) + "..."}
+            </p>
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="text-blue-600 mt-2 font-semibold"
+            >
+              {expanded ? "Show Less" : "Read More"}
+            </button>
           </Section>
 
-          {/* WHY */}
-          <Section title="Why travelers love this">
-            <div className="grid md:grid-cols-3 gap-4">
-              <Badge text="🌊 Prime Location" />
-              <Badge text="🏨 Luxury Stay" />
-              <Badge text="🚗 Easy Transfers" />
+          {/* TAGS */}
+          <Section title="Highlights">
+            <div className="flex flex-wrap gap-3">
+              {tags.map((tag, i) => (
+                <span
+                  key={i}
+                  className="bg-gray-200 px-4 py-2 rounded-full text-sm"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
           </Section>
 
-          {/* ITINERARY ACCORDION */}
-          <Section title="Day-wise Plan">
-            {trip.itinerary.map((day, i) => (
-              <div
-                key={i}
-                className="border rounded-xl mb-4 overflow-hidden"
-              >
-                <button
-                  onClick={() => setOpenDay(openDay === i ? null : i)}
-                  className="w-full flex justify-between items-center p-4 bg-gray-100 font-semibold"
-                >
-                  Day {i + 1}
-                  <span>{openDay === i ? "−" : "+"}</span>
-                </button>
+          {/* ITINERARY */}
+          {itinerary.length > 0 && (
+            <Section title="Day-wise Plan">
+              {itinerary.map((day, i) => (
+                <div key={i} className="border rounded-xl mb-3">
+                  <button
+                    onClick={() =>
+                      setOpenDay(openDay === i ? null : i)
+                    }
+                    className="w-full flex justify-between p-4 bg-gray-100 font-semibold"
+                  >
+                    Day {i + 1}
+                    <span>{openDay === i ? "-" : "+"}</span>
+                  </button>
+                  {openDay === i && (
+                    <div className="p-4 bg-white">{day}</div>
+                  )}
+                </div>
+              ))}
+            </Section>
+          )}
 
-                {openDay === i && (
-                  <div className="p-4 bg-white">
-                    {day}
-                  </div>
-                )}
+          {/* INCLUSIONS & EXCLUSIONS */}
+          <Section title="What's Included & Excluded">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div>
+                <h3 className="font-bold text-green-600 mb-3">
+                  ✔ Inclusions
+                </h3>
+                {inclusions.map((item, i) => (
+                  <p key={i}>• {item}</p>
+                ))}
               </div>
-            ))}
+              <div>
+                <h3 className="font-bold text-red-600 mb-3">
+                  ✘ Exclusions
+                </h3>
+                {exclusions.map((item, i) => (
+                  <p key={i}>• {item}</p>
+                ))}
+              </div>
+            </div>
           </Section>
 
           {/* HOW TO REACH */}
-          <Section title={`How to reach ${trip.location}`}>
-            <div className="flex gap-4 flex-wrap">
+          <Section title={`How to reach ${location}`}>
+            <div className="flex gap-3 flex-wrap">
               {cities.map((city) => (
                 <button
                   key={city}
@@ -125,50 +182,93 @@ const TourCard = () => {
             {selectedCity && (
               <div className="mt-4 grid md:grid-cols-3 gap-4">
                 {travelGuide[selectedCity].map((item, i) => (
-                  <div key={i} className="bg-gray-100 p-4 rounded-xl">
+                  <div
+                    key={i}
+                    className="bg-gray-100 p-4 rounded-xl"
+                  >
                     {item}
                   </div>
                 ))}
               </div>
             )}
           </Section>
+
+          {/* REVIEWS */}
+          <Section title="Traveler Reviews">
+            <div className="space-y-4">
+              <Review name="Rahul" rating={5} />
+              <Review name="Priya" rating={4} />
+            </div>
+          </Section>
+
+          {/* RELATED TOURS */}
+          <Section title="You may also like">
+            <div className="grid md:grid-cols-3 gap-6">
+              {indianTrips
+                .filter((t) => t.id !== trip.id)
+                .slice(0, 3)
+                .map((related) => (
+                  <Link
+                    key={related.id}
+                    to={`/tour-card/${related.id}`}
+                    className="bg-white shadow-lg rounded-2xl p-4 hover:scale-105 transition"
+                  >
+                    <img
+  src={related.image}
+  alt={related.title}
+  className="h-40 w-full object-cover rounded-xl"
+/>
+
+                    <h3 className="font-bold mt-2">
+                      {related.title}
+                    </h3>
+                    <p className="text-green-600">
+                      {related.price}
+                    </p>
+                  </Link>
+                ))}
+            </div>
+          </Section>
         </div>
 
         {/* RIGHT SIDEBAR */}
         <div className="sticky top-20 space-y-6">
 
-          {/* PRICE CARD */}
           <div className="bg-white shadow-2xl rounded-3xl p-6">
             <p className="text-sm text-gray-500">Starting from</p>
             <h2 className="text-4xl font-bold text-green-600">
-              ₹{trip.price}
+              ₹{price}
             </h2>
 
-            <button className="mt-6 w-full bg-black text-white py-4 rounded-xl text-lg hover:scale-105 transition">
+            <input
+              type="date"
+              className="mt-4 w-full border rounded-xl p-3"
+            />
+
+            <select className="mt-4 w-full border rounded-xl p-3">
+              <option>1 Traveler</option>
+              <option>2 Travelers</option>
+              <option>3 Travelers</option>
+              <option>4 Travelers</option>
+            </select>
+
+            <button className="mt-6 w-full bg-black text-white py-4 rounded-xl hover:scale-105 transition">
               Book Now
             </button>
           </div>
 
-          {/* INFO STACK */}
-          <Info label="🏨 Stay" value={trip.accommodation} />
-          <Info label="🍽 Meals" value={trip.meals} />
-          <Info label="📍 Pickup" value={trip.pickup} />
-          <Info label="📅 Best Time" value={trip.bestTime} />
+          <Info label="🏨 Stay" value={accommodation} />
+          <Info label="🍽 Meals" value={meals} />
+          <Info label="📍 Pickup" value={pickup} />
+          <Info label="📅 Best Time" value={bestTime} />
+          <Info label="👥 Group Size" value={groupSize} />
         </div>
-      </div>
-
-      {/* STICKY MOBILE CTA */}
-      <div className="fixed bottom-0 inset-x-0 bg-white shadow-xl p-4 flex justify-between items-center lg:hidden">
-        <span className="font-bold">₹{trip.price}</span>
-        <button className="bg-black text-white px-6 py-3 rounded-xl">
-          Book Now
-        </button>
       </div>
     </div>
   );
 };
 
-/* ---------- SMALL COMPONENTS ---------- */
+/* COMPONENTS */
 
 const Section = ({ title, children }) => (
   <div className="bg-white rounded-3xl shadow-lg p-6">
@@ -177,23 +277,19 @@ const Section = ({ title, children }) => (
   </div>
 );
 
-const Badge = ({ text }) => (
-  <div className="bg-gray-100 p-4 rounded-xl font-semibold">
-    {text}
-  </div>
-);
-
-const Stat = ({ label, value }) => (
-  <div className="bg-white/90 p-4 rounded-xl text-center">
-    <p className="text-xs uppercase opacity-70">{label}</p>
-    <p className="font-bold">{value}</p>
-  </div>
-);
-
 const Info = ({ label, value }) => (
   <div className="bg-white rounded-2xl shadow-md p-4">
     <p className="font-semibold">{label}</p>
     <p className="text-gray-600">{value}</p>
+  </div>
+);
+
+const Review = ({ name, rating }) => (
+  <div className="bg-gray-100 p-4 rounded-xl">
+    <p className="font-semibold">
+      {name} {"⭐".repeat(rating)}
+    </p>
+    <p>Wonderful experience! Highly recommended.</p>
   </div>
 );
 

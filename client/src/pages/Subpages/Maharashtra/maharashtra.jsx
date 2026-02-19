@@ -1,416 +1,592 @@
-import { ChevronLeft, Clock, Bus, Plane, Hotel, Download } from "lucide-react";
-import React, { useRef, useState } from "react";
+import { ChevronLeft, Download, Users, Calendar } from "lucide-react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import maharashtraImg from "../../../assets/fort.jpg";
 import jsPDF from "jspdf";
 
 export default function Maharashtra() {
-  const tripInfoRef = useRef(null);
-
   const [activeTab, setActiveTab] = useState("plan");
-  const [travelers, setTravelers] = useState(2);
+  const [travelers, setTravelers] = useState(6);
   const [duration, setDuration] = useState("5 Days");
   const [budget, setBudget] = useState("Medium (₹25,000 - ₹50,000)");
-  const [selectedDestinations, setSelectedDestinations] = useState([]);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+const downloadPDF = () => {
 
-  const destinations = [
-    { name: "Mumbai", type: "City" },
-    { name: "Ajanta Caves", type: "Heritage" },
-    { name: "Ellora Caves", type: "Heritage" },
-    { name: "Lonavala", type: "Hill Station" },
-    { name: "Konkan Coast", type: "Beach" },
-    { name: "Nashik", type: "City" },
-  ];
+  const doc = new jsPDF();
 
-  const toggleDestination = (name) => {
-    setSelectedDestinations((prev) =>
-      prev.includes(name) ? prev.filter((d) => d !== name) : [...prev, name]
-    );
-  };
+  doc.text("Maharashtra Trip Plan", 20, 20);
 
-  // Predefined itineraries
-  const itineraries = {
-    Mumbai: [
-      {
-        day: 1,
-        title: "Arrival in Mumbai",
-        activities: [
-          "Check-in at hotel",
-          "Visit Gateway of India",
-          "Marine Drive sunset walk",
-          "Dinner at local restaurant",
-        ],
-        transport: "Plane",
-        hotel: "4★ Hotel Mumbai",
-      },
-      {
-        day: 2,
-        title: "Mumbai Exploration",
-        activities: [
-          "Elephanta Caves tour",
-          "Crawford Market shopping",
-          "Bollywood studio visit",
-          "Street food tour",
-        ],
-        transport: "Local transport",
-        hotel: "4★ Hotel Mumbai",
-      },
-    ],
-    "Ajanta Caves": [
-      {
-        day: 1,
-        title: "Journey to Ajanta",
-        activities: [
-          "Morning flight to Aurangabad",
-          "Ajanta Caves exploration",
-          "UNESCO World Heritage site tour",
-          "Local cultural dinner",
-        ],
-        transport: "Flight + Bus",
-        hotel: "Heritage Hotel Aurangabad",
-      },
-    ],
-    "Ellora Caves": [
-      {
-        day: 1,
-        title: "Ellora Exploration",
-        activities: [
-          "Explore Kailasa Temple",
-          "Visit Buddhist and Jain caves",
-          "Photography tour",
-          "Dinner at heritage restaurant",
-        ],
-        transport: "Bus",
-        hotel: "Heritage Hotel Aurangabad",
-      },
-    ],
-    Lonavala: [
-      {
-        day: 1,
-        title: "Trip to Lonavala",
-        activities: [
-          "Drive from Mumbai/Pune",
-          "Visit Bhushi Dam",
-          "Explore Karla & Bhaja Caves",
-          "Enjoy chikki shopping",
-        ],
-        transport: "Private Car",
-        hotel: "Resort in Lonavala",
-      },
-    ],
-    "Konkan Coast": [
-      {
-        day: 1,
-        title: "Konkan Beach Retreat",
-        activities: [
-          "Scenic coastal drive",
-          "Relax at Tarkarli Beach",
-          "Water sports activities",
-          "Seafood dinner",
-        ],
-        transport: "Bus/Car",
-        hotel: "Beachside Resort",
-      },
-    ],
-    Nashik: [
-      {
-        day: 1,
-        title: "Nashik Wine Tour",
-        activities: [
-          "Drive to Nashik",
-          "Visit Sula Vineyards",
-          "Wine tasting experience",
-          "Explore Panchavati temples",
-        ],
-        transport: "Car",
-        hotel: "Vineyard Resort",
-      },
-    ],
-  };
+  itinerary.forEach((day, index) => {
 
-  // Combine selected itineraries
-  const finalItinerary = selectedDestinations.flatMap(
-    (place) => itineraries[place] || []
-  );
+    doc.text(`Day ${day.day}`, 20, 40 + index * 30);
 
-  const totalDays = finalItinerary.length;
-
-  // Budget Calculation
-  const calculateBudget = () => {
-    if (budget.includes("Low"))
-      return `₹${10000 * travelers} - ₹${25000 * travelers}`;
-    if (budget.includes("Medium"))
-      return `₹${25000 * travelers} - ₹${50000 * travelers}`;
-    if (budget.includes("High")) return `₹${50000 * travelers}+`;
-    return budget;
-  };
-
-  // PDF Download with Attractive Layout
-  const handleDownloadPDF = () => {
-    const doc = new jsPDF();
-
-    // Header
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(22);
-    doc.setTextColor(255, 87, 34); // Orange color
-    doc.text("Maharashtra Trip Plan", 20, 20);
-
-    doc.setDrawColor(255, 87, 34);
-    doc.setLineWidth(1);
-    doc.line(20, 25, 190, 25);
-
-    // Basic Info
-    doc.setFontSize(12);
-    doc.setTextColor(0, 0, 0);
-    doc.text(`👥 Travelers: ${travelers}`, 20, 40);
-    doc.text(`🕒 Duration: ${duration}`, 20, 48);
-    doc.text(`💰 Budget: ${calculateBudget()}`, 20, 56);
-    doc.text(
-      `📍 Destinations: ${selectedDestinations.join(", ") || "Not selected"}`,
-      20,
-      64
-    );
-    doc.text(`📅 Total Days: ${totalDays}`, 20, 72);
-
-    // Section Title
-    let y = 90;
-    doc.setFontSize(16);
-    doc.setTextColor(255, 87, 34);
-    doc.text("📖 Detailed Itinerary", 20, y);
-    y += 10;
-
-    doc.setFontSize(12);
-    doc.setTextColor(50, 50, 50);
-
-    // Add Itinerary
-    finalItinerary.forEach((day) => {
-      doc.setFont("helvetica", "bold");
-      doc.text(`Day ${day.day}: ${day.title}`, 20, y);
-      y += 8;
-
-      doc.setFont("helvetica", "normal");
-      day.activities.forEach((act) => {
-        doc.text(`- ${act}`, 25, y);
-        y += 6;
-      });
-
-      doc.text(`🚍 Transport: ${day.transport}`, 25, y);
-      y += 6;
-      doc.text(`🏨 Hotel: ${day.hotel}`, 25, y);
-      y += 10;
-
-      // Add separator
-      doc.setDrawColor(200, 200, 200);
-      doc.line(20, y, 190, y);
-      y += 10;
-
-      // Avoid overflow
-      if (y > 270) {
-        doc.addPage();
-        y = 20;
-      }
+    day.activities.forEach((act, i) => {
+      doc.text(`- ${act}`, 25, 50 + index * 30 + i * 8);
     });
 
-    doc.save("Maharashtra_Trip.pdf");
-  };
+  });
+
+  doc.save("trip-plan.pdf");
+
+};
+
+const [itinerary, setItinerary] = useState([]);
+const destinations = [
+  "Mumbai City Tour",
+  "Gateway of India",
+  "Marine Drive Walk",
+  "Elephanta Caves",
+  "Ajanta Caves",
+  "Ellora Caves",
+  "Lonavala Hill Station",
+  "Mahabaleshwar",
+  "Panchgani",
+  "Alibaug Beach",
+  "Konkan Coast",
+  "Shirdi Temple",
+  "Nashik Wine Tour",
+  "Kolhapur Temple",
+  "Tadoba Safari"
+];
+
+const generateItinerary = () => {
+
+  const days = parseInt(duration);
+
+  const generated = [];
+
+  for (let i = 0; i < days; i++) {
+
+    const activities = [];
+
+    for (let j = 0; j < 5; j++) {
+
+      const random =
+        destinations[Math.floor(Math.random() * destinations.length)];
+
+      activities.push(random);
+    }
+
+    generated.push({
+      day: i + 1,
+      activities
+    });
+
+  }
+
+  setItinerary(generated);
+
+  setActiveTab("itinerary");
+};
+
+
+  const tabs = [
+    { id: "plan", label: "Plan Trip" },
+    { id: "itinerary", label: "View Itinerary" },
+    { id: "book", label: "Book Now" }
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-white">
-  {/* Header */}
-  <div className="shadow-md h-14 flex items-center px-6 bg-white sticky top-0 z-20">
-    <Link
-      to="/"
-      className="flex items-center text-orange-600 hover:text-orange-700 transition-all"
-    >
-      <ChevronLeft className="h-6 w-6" />
-      <span className="ml-2 font-semibold">Back to Home</span>
-    </Link>
-  </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
 
-  {/* Main Content */}
-  <div className="flex flex-col lg:flex-row gap-10 p-8 lg:p-12">
-    {/* Left Column */}
-    <div className="w-full lg:w-1/2 flex flex-col gap-6">
-      <div className="relative h-[60vh] rounded-xl overflow-hidden shadow-2xl transform transition-transform duration-500 hover:scale-105">
-        <img
-          src={maharashtraImg}
-          alt="Maharashtra"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute bottom-4 left-4 bg-orange-600 px-4 py-2 rounded-lg text-white font-semibold shadow-lg">
-          Discover Maharashtra
-        </div>
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b px-6 py-4 flex items-center justify-between">
+        <Link to="/" className="flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700">
+          <ChevronLeft size={20} /> Back
+        </Link>
+
+        <h1 className="text-xl font-bold text-slate-700">Maharashtra Explorer</h1>
       </div>
 
-      <div className="bg-white p-6 rounded-2xl shadow-xl space-y-4">
-        <h3 className="text-2xl font-bold text-orange-600">Why Maharashtra?</h3>
-        <ul className="space-y-2 text-gray-700">
-          <li className="flex items-center gap-2">🌐 UNESCO Heritage Sites</li>
-          <li className="flex items-center gap-2">🏙️ Vibrant Cities</li>
-          <li className="flex items-center gap-2">🏖️ Beautiful Coastline</li>
-          <li className="flex items-center gap-2">🎭 Rich Culture</li>
-        </ul>
-      </div>
 
-      <div className="bg-white p-6 rounded-2xl shadow-xl space-y-2">
-        <h3 className="text-2xl font-bold text-orange-600">Quick Facts</h3>
-        <ul className="text-gray-700 space-y-1">
-          <li><span className="font-semibold">Best Time:</span> Nov - Feb</li>
-          <li><span className="font-semibold">Language:</span> Marathi, Hindi, English</li>
-          <li><span className="font-semibold">Currency:</span> ₹ Indian Rupee</li>
-          <li><span className="font-semibold">Time Zone:</span> IST (UTC+5:30)</li>
-        </ul>
-      </div>
-    </div>
+      {/* Main Layout */}
+      <div className="grid lg:grid-cols-2 gap-8 p-6 lg:p-10">
 
-    {/* Right Column */}
-    <div className="w-full lg:w-1/2 flex flex-col gap-6">
-      <div className="bg-white p-6 rounded-2xl shadow-2xl space-y-6">
-        {/* Tabs */}
-        <div className="flex space-x-6 border-b border-gray-300 pb-2">
-          {["plan", "itinerary", "book"].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`font-semibold pb-1 transition-colors duration-300 ${
-                activeTab === tab
-                  ? "text-white bg-orange-500 px-4 py-1 rounded-full shadow-md"
-                  : "text-gray-500 hover:text-orange-500"
-              }`}
-            >
-              {tab === "plan" ? "Plan Trip" : tab === "itinerary" ? "View Itinerary" : "Book Now"}
-            </button>
-          ))}
+        {/* LEFT IMAGE */}
+        <div className="rounded-3xl overflow-hidden shadow-xl">
+          <img
+            src={maharashtraImg}
+            className="w-full h-full object-cover"
+            alt="Maharashtra"
+          />
         </div>
 
-        {/* Plan Trip */}
-        {activeTab === "plan" && (
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-orange-600">
-              Customize Your Maharashtra Trip
-            </h2>
 
-            {/* Form */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input type="date" className="p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-orange-400 transition" />
-              <input type="date" className="p-3 border rounded-lg shadow-sm focus:ring-2 focus:ring-orange-400 transition" />
+        {/* RIGHT PANEL */}
+        <div className="bg-white rounded-3xl shadow-xl p-6 lg:p-8">
 
-              <div className="flex items-center border rounded-lg p-3 justify-between shadow-sm">
-                <span>Travelers</span>
-                <div className="flex items-center space-x-2">
-                  <button className="px-3 py-1 bg-orange-200 rounded" onClick={() => setTravelers(Math.max(1, travelers - 1))}>-</button>
-                  <span>{travelers}</span>
-                  <button className="px-3 py-1 bg-orange-200 rounded" onClick={() => setTravelers(travelers + 1)}>+</button>
+          {/* MODERN TABS */}
+          <div className="flex bg-slate-100 rounded-full p-1 mb-6">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex-1 py-2 rounded-full font-medium transition-all duration-300 ${
+                  activeTab === tab.id
+                    ? "bg-gradient-to-r from-blue-500 to-teal-500 text-white shadow"
+                    : "text-slate-600 hover:text-blue-600"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+
+          {/* PLAN TAB */}
+          {activeTab === "plan" && (
+            <div className="space-y-5">
+
+              <h2 className="text-2xl font-bold text-blue-600">
+                Customize Your Maharashtra Trip
+              </h2>
+
+
+              {/* DATE INPUTS */}
+              <div className="grid md:grid-cols-2 gap-4">
+
+                <div className="relative">
+                  <Calendar className="absolute left-3 top-3 text-slate-400" size={18} />
+                  <input
+  type="date"
+  value={startDate}
+  onChange={(e) => setStartDate(e.target.value)}
+  className="w-full pl-10 pr-3 py-3 border rounded-xl"
+/>
                 </div>
+
+                <div className="relative">
+                  <Calendar className="absolute left-3 top-3 text-slate-400" size={18} />
+                  <input
+  type="date"
+  value={endDate}
+  onChange={(e) => setEndDate(e.target.value)}
+  className="w-full pl-10 pr-3 py-3 border rounded-xl"
+/>
+                </div>
+
               </div>
 
-              <select value={duration} onChange={(e) => setDuration(e.target.value)} className="p-3 border rounded-lg shadow-sm">
-                <option>5 Days</option>
-                <option>7 Days</option>
-                <option>10 Days</option>
-              </select>
 
-              <select value={budget} onChange={(e) => setBudget(e.target.value)} className="p-3 border rounded-lg shadow-sm md:col-span-2">
-                <option>Medium (₹25,000 - ₹50,000)</option>
-                <option>Low (₹10,000 - ₹25,000)</option>
-                <option>High (₹50,000+)</option>
-              </select>
-            </div>
+              {/* TRAVELERS */}
+              <div>
+                <label className="block text-slate-600 mb-2 font-medium">
+                  Number of Travelers
+                </label>
 
-            {/* Destination Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {destinations.map((dest) => (
-                <button
-                  key={dest.name}
-                  onClick={() => toggleDestination(dest.name)}
-                  className={`p-4 border rounded-2xl text-left shadow-sm hover:scale-105 transition-transform duration-300 ${
-                    selectedDestinations.includes(dest.name)
-                      ? "border-orange-500 bg-orange-50 shadow-md"
-                      : "border-gray-300"
-                  }`}
+                <div className="flex items-center gap-4">
+
+                  <button
+                    onClick={() => setTravelers(Math.max(1, travelers - 1))}
+                    className="w-12 h-12 rounded-xl border flex items-center justify-center text-xl hover:bg-slate-100"
+                  >
+                    −
+                  </button>
+
+
+                  <div className="flex-1 bg-slate-100 rounded-xl py-3 flex items-center justify-center gap-2">
+                    <Users size={18} className="text-teal-600" />
+                    <span className="font-semibold text-lg">{travelers}</span>
+                  </div>
+
+
+                  <button
+                    onClick={() => setTravelers(travelers + 1)}
+                    className="w-12 h-12 rounded-xl border flex items-center justify-center text-xl hover:bg-slate-100"
+                  >
+                    +
+                  </button>
+
+                </div>
+
+              </div>
+
+
+              {/* DURATION */}
+              <div>
+                <label className="block text-slate-600 mb-2 font-medium">
+                  Trip Duration
+                </label>
+
+                <select
+                  value={duration}
+                  onChange={(e) => setDuration(e.target.value)}
+                  className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
                 >
-                  <span className="font-semibold">{dest.name}</span>
-                  <br />
-                  <span className="text-gray-500 text-sm">{dest.type}</span>
-                </button>
-              ))}
-            </div>
+                  <option>5 Days</option>
+                  <option>7 Days</option>
+                  <option>10 Days</option>
+                </select>
 
-            {/* Generate Button */}
-            <button
-              onClick={() => {
-                setActiveTab("itinerary");
-                setTimeout(() => tripInfoRef.current?.scrollIntoView({ behavior: "smooth" }), 100);
-              }}
-              className="w-full bg-gradient-to-r from-orange-400 to-orange-600 text-white py-3 rounded-2xl font-bold shadow-lg hover:from-orange-500 hover:to-orange-700 transition"
-            >
-              Generate Trip Plan
-            </button>
-          </div>
-        )}
-
-        {/* Itinerary */}
-        {activeTab === "itinerary" && (
-          <div ref={tripInfoRef} className="space-y-6">
-            {finalItinerary.length > 0 ? finalItinerary.map((dayPlan, i) => (
-              <div key={i} className="bg-white p-4 rounded-2xl shadow hover:shadow-lg transition">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm font-medium">
-                    Day {dayPlan.day}
-                  </span>
-                  <h3 className="text-lg font-bold text-gray-800">{dayPlan.title}</h3>
-                </div>
-
-                <ul className="space-y-1 text-gray-700 mb-3">
-                  {dayPlan.activities.map((act, idx) => (
-                    <li key={idx} className="flex items-center gap-2">
-                      <Clock size={16} className="text-gray-500" /> {act}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="flex items-center gap-6 text-gray-600 text-sm">
-                  <div className="flex items-center gap-1">
-                    {dayPlan.transport.includes("Plane") || dayPlan.transport.includes("Flight") ? (
-                      <Plane size={16} className="text-orange-500" />
-                    ) : (
-                      <Bus size={16} className="text-orange-500" />
-                    )}
-                    {dayPlan.transport}
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Hotel size={16} className="text-orange-500" /> {dayPlan.hotel}
-                  </div>
-                </div>
               </div>
-            )) : (
-              <p className="text-gray-500">No destinations selected.</p>
-            )}
-          </div>
-        )}
 
-        {/* Book Now */}
-        {activeTab === "book" && (
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-orange-600">Book Your Trip</h2>
-            <div className="bg-white p-4 rounded-2xl shadow space-y-2">
-              <p>Travelers: <span className="font-semibold">{travelers}</span></p>
-              <p>Duration: <span className="font-semibold">{duration}</span></p>
-              <p>Budget: <span className="font-semibold">{calculateBudget()}</span></p>
-              <p>Total Days: <span className="font-semibold">{totalDays}</span></p>
+
+              {/* BUDGET */}
+              <div>
+                <label className="block text-slate-600 mb-2 font-medium">
+                  Budget Range (per person)
+                </label>
+
+                <select
+                  value={budget}
+                  onChange={(e) => setBudget(e.target.value)}
+                  className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-400 outline-none"
+                >
+                  <option>Medium (₹25,000 - ₹50,000)</option>
+                  <option>Low (₹10,000 - ₹25,000)</option>
+                  <option>High (₹50,000+)</option>
+                </select>
+
+              </div>
+
+
+              {/* GENERATE BUTTON */}
+              <button
+  onClick={generateItinerary}
+  className="w-full py-4 rounded-xl font-semibold text-white bg-gradient-to-r from-blue-500 to-teal-500 hover:from-blue-600 hover:to-teal-600 transition-all shadow-lg"
+>
+  Generate Personalized Trip Plan
+</button>
+
+
+
             </div>
-            <button
-              onClick={handleDownloadPDF}
-              className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 rounded-2xl font-bold shadow-lg transition"
-            >
-              <Download size={18} /> Download PDF
-            </button>
-          </div>
-        )}
+          )}
+
+
+          {/* ITINERARY TAB */}
+          {activeTab === "itinerary" && (
+  <div>
+
+    <h2 className="text-2xl font-bold mb-4 text-blue-600">
+      Your Trip Itinerary
+    </h2>
+
+    {itinerary.map((dayPlan) => (
+
+      <div
+        key={dayPlan.day}
+        className="border rounded-xl p-4 mb-4 shadow-sm"
+      >
+
+        <h3 className="font-bold text-lg mb-2 text-teal-600">
+          Day {dayPlan.day}
+        </h3>
+
+        <ul className="list-disc ml-5 space-y-1">
+
+          {dayPlan.activities.map((activity, index) => (
+            <li key={index}>{activity}</li>
+          ))}
+
+        </ul>
+
       </div>
+
+    ))}
+
+    <button
+      onClick={() => setActiveTab("book")}
+      className="w-full mt-4 py-3 bg-green-500 text-white rounded-xl"
+    >
+      Proceed to Book Now
+    </button>
+
+  </div>
+)}
+
+
+
+          {/* BOOK TAB */}
+          {activeTab === "book" && (
+  <div>
+
+    <h2 className="text-2xl font-bold mb-4 text-blue-600">
+      Trip Preview
+    </h2>
+
+    <div className="space-y-3 mb-6">
+
+      <p>
+        <strong>Start Date:</strong> {startDate}
+      </p>
+
+      <p>
+        <strong>End Date:</strong> {endDate}
+      </p>
+
+      <p>
+        <strong>Travelers:</strong> {travelers}
+      </p>
+
+      <p>
+        <strong>Duration:</strong> {duration}
+      </p>
+
+      <p>
+        <strong>Budget:</strong> {budget}
+      </p>
+
     </div>
+
+    <h3 className="font-bold text-lg mb-2">
+      Itinerary Summary
+    </h3>
+
+    <div className="max-h-60 overflow-y-auto border rounded-xl p-3">
+
+      {itinerary.map((dayPlan) => (
+
+        <div key={dayPlan.day} className="mb-3">
+
+          <p className="font-semibold">
+            Day {dayPlan.day}
+          </p>
+
+          <ul className="ml-4 list-disc">
+
+            {dayPlan.activities.map((activity, i) => (
+              <li key={i}>{activity}</li>
+            ))}
+
+          </ul>
+
+        </div>
+
+      ))}
+
+    </div>
+
+
+    <button className="w-full mt-6 py-4 bg-green-500 text-white rounded-xl flex items-center justify-center gap-2" onClick={downloadPDF}>
+      <Download size={18} />
+      Download PDF
+    </button>
+
+  </div>
+)}
+
+
+
+        </div>
+
+
+      </div>
+
+          {/* WHY MAHARASHTRA */}
+<div className="px-6 lg:px-10 py-12">
+
+  <h2 className="text-3xl font-bold text-blue-600 mb-8">
+    Why Maharashtra?
+  </h2>
+
+  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+    <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+      <div className="bg-blue-500 text-white w-12 h-12 flex items-center justify-center rounded-full mb-4">
+        📍
+      </div>
+      <h3 className="font-semibold text-lg">UNESCO Heritage Sites</h3>
+      <p className="text-slate-500 text-sm">
+        Explore ancient Ajanta & Ellora caves
+      </p>
+    </div>
+
+    <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+      <div className="bg-green-500 text-white w-12 h-12 flex items-center justify-center rounded-full mb-4">
+        ⭐
+      </div>
+      <h3 className="font-semibold text-lg">Vibrant Cities</h3>
+      <p className="text-slate-500 text-sm">
+        Experience Mumbai's energy & culture
+      </p>
+    </div>
+
+    <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+      <div className="bg-cyan-500 text-white w-12 h-12 flex items-center justify-center rounded-full mb-4">
+        ☀️
+      </div>
+      <h3 className="font-semibold text-lg">Beautiful Coastline</h3>
+      <p className="text-slate-500 text-sm">
+        Pristine beaches along Konkan coast
+      </p>
+    </div>
+
+    <div className="bg-white p-6 rounded-2xl shadow hover:shadow-lg transition">
+      <div className="bg-purple-500 text-white w-12 h-12 flex items-center justify-center rounded-full mb-4">
+        📈
+      </div>
+      <h3 className="font-semibold text-lg">Rich Culture</h3>
+      <p className="text-slate-500 text-sm">
+        Festivals, art, and diverse traditions
+      </p>
+    </div>
+
   </div>
 </div>
 
+
+{/* WEATHER */}
+<div className="px-6 lg:px-10 pb-12">
+
+  <div className="bg-gradient-to-r from-blue-600 to-teal-500 text-white rounded-3xl p-6 shadow">
+
+    <h2 className="text-2xl font-bold mb-2">
+      Current Weather in Maharashtra
+    </h2>
+
+    <p className="mb-6 opacity-90">
+      Plan your trip with real-time weather insights
+    </p>
+
+    <div className="grid md:grid-cols-4 gap-6 text-center">
+
+      <div>
+        <p className="text-lg">☁️</p>
+        <p className="text-sm opacity-80">Condition</p>
+        <p className="font-semibold">Partly Cloudy</p>
+      </div>
+
+      <div>
+        <p className="text-lg">🌡️</p>
+        <p className="text-sm opacity-80">Temperature</p>
+        <p className="font-semibold">28°C</p>
+      </div>
+
+      <div>
+        <p className="text-lg">☔</p>
+        <p className="text-sm opacity-80">Rainfall</p>
+        <p className="font-semibold">Low</p>
+      </div>
+
+      <div>
+        <p className="text-lg">☀️</p>
+        <p className="text-sm opacity-80">Best Months</p>
+
+        <div className="flex justify-center gap-2 mt-1">
+          {["Oct","Nov","Dec","Jan","Feb"].map(m => (
+            <span key={m} className="bg-white text-blue-600 px-2 py-1 rounded-full text-xs">
+              {m}
+            </span>
+          ))}
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+{/* TRAVEL TIPS + PACKAGES */}
+<div className="grid lg:grid-cols-2 gap-8 px-6 lg:px-10 pb-12">
+
+  {/* TIPS */}
+  <div className="bg-white rounded-3xl shadow p-6">
+
+    <h2 className="text-2xl font-bold text-blue-600 mb-6">
+      Essential Travel Tips
+    </h2>
+
+    {[
+      ["Best Time", "October to February for pleasant weather"],
+      ["Budget Tip", "Book trains early for savings"],
+      ["Transport", "MSRTC buses connect major destinations"],
+      ["Culture", "Respect dress codes at religious sites"]
+    ].map(([title, desc], i) => (
+
+      <div key={i} className="bg-slate-50 p-4 rounded-xl mb-3">
+        <p className="font-semibold">{title}</p>
+        <p className="text-sm text-slate-500">{desc}</p>
+      </div>
+
+    ))}
+
+  </div>
+
+
+  {/* PACKAGES */}
+  <div className="bg-white rounded-3xl shadow p-6">
+
+    <h2 className="text-2xl font-bold text-blue-600 mb-6">
+      Popular Tour Packages
+    </h2>
+
+    {[
+      ["Heritage Trail", "₹18,999"],
+      ["Beach Escape", "₹12,499"],
+      ["Complete Maharashtra", "₹35,999"]
+    ].map(([name, price], i) => (
+
+      <div key={i} className="border rounded-xl p-4 mb-4">
+
+        <div className="flex justify-between">
+
+          <div>
+            <p className="font-semibold">{name}</p>
+            <p className="text-sm text-slate-500">5 Days • 3 Places</p>
+          </div>
+
+          <p className="font-bold text-green-600">{price}</p>
+
+        </div>
+
+        <button className="w-full mt-3 border border-teal-500 text-teal-500 py-2 rounded-lg hover:bg-teal-500 hover:text-white">
+          View Details
+        </button>
+
+      </div>
+
+    ))}
+
+  </div>
+
+</div>
+
+
+{/* CTA */}
+<div className="px-6 lg:px-10 pb-16">
+
+  <div className="bg-gradient-to-r from-blue-600 to-teal-500 text-white rounded-3xl p-10 text-center shadow">
+
+    <h2 className="text-3xl font-bold mb-3">
+      Ready To Explore Maharashtra?
+    </h2>
+
+    <p className="mb-6 opacity-90">
+      Join thousands of travelers who discovered Maharashtra
+    </p>
+
+    <button className="bg-white text-blue-600 px-6 py-3 rounded-xl font-semibold hover:scale-105 transition">
+      Start Planning Now →
+    </button>
+
+    <div className="grid md:grid-cols-3 gap-6 mt-10">
+
+      <div>
+        <p className="text-3xl font-bold">50+</p>
+        <p>Destinations</p>
+      </div>
+
+      <div>
+        <p className="text-3xl font-bold">10K+</p>
+        <p>Happy Travelers</p>
+      </div>
+
+      <div>
+        <p className="text-3xl font-bold">4.8</p>
+        <p>Average Rating</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+    </div>
   );
 }
