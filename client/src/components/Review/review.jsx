@@ -18,7 +18,7 @@ export default function ReviewForm() {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/feedback`,
+        `${process.env.REACT_APP_API_URL}/api/feedback`,
         {
           method: "POST",
           headers: {
